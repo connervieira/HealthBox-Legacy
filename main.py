@@ -28,7 +28,8 @@ while True: # Run the program as an endless loop until terminated
     print("3. Settings")
     print("4. Initialize database")
     print("5. List supported health metrics")
-    print("6. Exit")
+    print("6. Manage Keys")
+    print("7. Exit")
     selection = raw_input(color.WHITE + "Selection: " + color.END)
 
     clear()
@@ -52,11 +53,12 @@ while True: # Run the program as an endless loop until terminated
         print(color.RED + "A3. On Foot Distance" + color.END)
         print(color.RED + "A4. Resting Energy" + color.END)
         print(color.RED + "A5. Active Minutes" + color.END)
-        print(color.RED + "A6. Minutes Standing" + color.END)
+        print(color.RED + "A6. Standing Time" + color.END)
         print(color.RED + "A7. Stair Flights Climb" + color.END)
         print(color.RED + "A8. Cycling Distance" + color.END)
         print(color.RED + "A9. Swimming Distance" + color.END)
         print(color.RED + "A10. Wheelchair Distance" + color.END)
+        print(color.RED + "A11. Workout" + color.END) # Any deliberate physical activity (running, walking, swimming, weight lifting, soccer, etc.
 
         print("\n")        
 
@@ -68,6 +70,7 @@ while True: # Run the program as an endless loop until terminated
         print(color.CYAN + "B5. ASRS Score (ADHD Test)" + color.END)
         print(color.CYAN + "B6. Mindful Minutes" + color.END)
         print(color.CYAN + "B7. Mood" + color.END)
+        print(color.CYAN + "B8. Sexual Activity" + color.END)
 
         print("\n")
 
@@ -118,7 +121,7 @@ while True: # Run the program as an endless loop until terminated
         print(color.BOLD + color.YELLOW + "Measurements" + color.END + color.END)
         print(color.YELLOW + "D1. Weight" + color.END)
         print(color.YELLOW + "D2. Height" + color.END)
-        print(color.YELLOW + "D3. Temperature" + color.END)
+        print(color.YELLOW + "D3. Body Temperature" + color.END)
         print(color.YELLOW + "D4. Electrodermal Activity" + color.END)
         print(color.YELLOW + "D5. Waist Circumference" + color.END)
         print(color.YELLOW + "D6. Breathing Rate" + color.END)
@@ -135,6 +138,9 @@ while True: # Run the program as an endless loop until terminated
         print(color.YELLOW + "D17. Blood Sugar" + color.END)
         print(color.YELLOW + "D18. Blood Alcohol Content" + color.END)
         print(color.YELLOW + "D19. Sound Exposure" + color.END)
+        print(color.YELLOW + "D20. Sleep" + color.END)
+        print(color.YELLOW + "D21. Atypical Pulse" + color.END)
+        print(color.YELLOW + "D22. Audiogram" + color.END)
 
         print("\n")
 
