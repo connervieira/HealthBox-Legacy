@@ -17,6 +17,7 @@ metric_categories = [
 			{"name": "Resting Calories", "description": "How much energy is burned while resting"},
 			{"name": "Active Minutes", "description": "How many minutes are spent moving around, being active"},
 			{"name": "Wheelchair Pushes", "description": "How many times the wheels on a wheelchair are pushed"},
+			{"name": "Wheelchair Distance", "description": "Total distance traveled by manuall wheel chair movement"},
 			{"name": "Minutes Standing", "description": "How many minutes are spent standing"}
 		]
 	},
@@ -88,6 +89,8 @@ metric_categories = [
 		"metrics": [
 			{"name": "Weight", "description": "Total body weight"},
 			{"name": "Height", "description": "Total height when standing straight upright"},
+			{"name": "Biological Sex", "description": "Gender as identified at birth"},
+			{"name": "Gender", "description": "Gender as defined by which gender one identifies with"},
 			{"name": "Body Temperature", "description": "Measure of the temperature of the body "},
 			{"name": "Electrodermal Activity", "description": "Electrodermal activity serves as an indicator of how much sweat is on the skin."},
 			{"name": "Waist Circumference", "description": ""},
@@ -101,6 +104,7 @@ metric_categories = [
 			{"name": "Peripheral Perfusion Index", "description": ""},
 			{"name": "Lung Capacity", "description": "How much air the lungs are capable of holding"},
 			{"name": "VO2 Max", "description": "The maximum amount of oxygen burned while exercising"},
+			{"name": "Ailments", "description": "A record of injuries and illnesses, both mental and physical"},
 			{"name": "Blood Pressure", "description": ""},
 			{"name": "Blood Sugar", "description": ""},
 			{"name": "Blood Alcohol Content", "description": ""},
