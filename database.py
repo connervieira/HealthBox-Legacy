@@ -65,15 +65,14 @@ class JSONDatabaseBackend:
 
 # these make it so you can call functions on this object
 # and the function actually called is the one on the database object
-# this also applies to "bruh" in object, object ["bruh"], object ["bruh"] = "lmao", and del object ["bruh"] expressions
-# (thats what the __contains__, __getitem__, __setitem__, and __delitem__ functions get called for)
+# this also applies to "key" in object, object ["key"], object ["key"] = "value", and del object ["key"] expressions
+# (which are what the __contains__, __getitem__, __setitem__, and __delitem__ functions get called for)
 # I would assign these in a class function but the __ functions have to be set on the object prototype to work properly
 # and it'd be a waste of resources to assign to the prototype in each instance
 
 # Given the name of a function, this function creates a function that can be assigned to the object prototype
 # to proxy the function with that name to the function with the same name on self._db
-# jeez that's a long sentence... text me if this is unclear 4403840834
 proxy_function_creator = lambda function_name: lambda self, *args, **kwargs: getattr (self._db, function_name) (*args, **kwargs)
-# now we just iterate over each property
+# now we just iterate over each property and set the property on the object prototype to the result of calling the function
 for func_name in ["__contains__", "__getitem__", "__setitem__", "__delitem__", "clear", "copy", "fromkeys", "get", "items", "keys", "pop", "popitem", "setdefault", "update", "values"]:
     setattr (JSONDatabaseBackend, func_name, proxy_function_creator (func_name))
