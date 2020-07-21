@@ -65,16 +65,16 @@ class HashBasedCryptoData:
     def use_existing (string_key, serialized_format, hash_method = "sha256", delimiter = ':', text_encoding = "utf-8"):
         crypto_data = HashBasedCryptoDataBidirSerializer.deserialize (serialized_format, delimiter = delimiter, text_encoding = text_encoding)
         crypto_data.check_string_key (string_key, hash_method = hash_method, text_encoding = text_encoding)
-        # we now know that the given key is valid! generate the encryption hash using the given key and stored salt
+        # We now know that the given key is valid! generate the encryption hash using the given key and stored salt
         crypto_data.encryption_hash, _salt = utils.hash_string (string_key, salt = crypto_data.encryption_hash_salt, hash_method = hash_method, text_encoding = text_encoding)
-        crypto_data.iv_is_from_deserializer = True # helps keep the programmer from accidentally overwriting the IV by deserializing and then calling encrypt before decrypt
+        crypto_data.iv_is_from_deserializer = True # Helps keep the programmer from accidentally overwriting the IV by deserializing and then calling encrypt before decrypt
         return crypto_data
     def check_string_key (self, string_key, hash_method = "sha256", text_encoding = "utf-8"):
         storage_hash_with_given_key, _storage_hash_salt = utils.hash_string (string_key, salt = self.storage_hash_salt, hash_method = hash_method, text_encoding = text_encoding)
         if storage_hash_with_given_key != self.storage_hash:
             raise InvalidKeyError (string_key)
-    def apply_deserialized_data (self, encryption_hash_salt, storage_hash, storage_hash_salt, iv, data_length): # to be used by deserializer
-        # the equivalent of doing self.encryption_hash_salt = encryption_hash_salt for all four arguments
+    def apply_deserialized_data (self, encryption_hash_salt, storage_hash, storage_hash_salt, iv, data_length): # To be used by deserializer
+        # The equivalent of doing self.encryption_hash_salt = encryption_hash_salt for all four arguments
         for data_part_name in ["encryption_hash_salt", "storage_hash", "storage_hash_salt", "iv", "data_length"]:
             setattr (self, data_part_name, locals () [data_part_name])
 
@@ -107,8 +107,8 @@ class HashBasedCryptoProvider:
     @staticmethod
     def decrypt (crypto_data, data_to_decrypt):
         decrypted_data = PyCryptodomeAESModule.new (crypto_data.encryption_hash, PyCryptodomeAESModule.MODE_CBC, iv = crypto_data.iv).decrypt (data_to_decrypt)
-        crypto_data.iv_is_from_deserializer = False # not exactly true... it's a bad variable name. but basically we assume that since the IV has been used once, it can be overwritten
-        return decrypted_data [0:utils.bytes_to_int (crypto_data.data_length)] # remove the padding using the stored data length
+        crypto_data.iv_is_from_deserializer = False # Not exactly true... It's a bad variable name. but basically we assume that since the IV has been used once, it can be overwritten
+        return decrypted_data [0:utils.bytes_to_int (crypto_data.data_length)] # Remove the padding using the stored data length
 
 if __name__ == "__main__": # Checking if this file was directly called from the command line
     # Testing crypto.py functionality:
