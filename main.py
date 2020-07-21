@@ -1,5 +1,4 @@
 import metrics, utils # metrics.py, utils.py
-import traceback
 
 while True: # Run the program as an endless loop until terminated
     utils.clear()
@@ -47,7 +46,6 @@ while True: # Run the program as an endless loop until terminated
             metric_number = int (metric_number_string) # fails if not integer
             assert metric_number >= 1 and metric_number <= len (matched_category ["metrics"]) # fails if integer isn't a metric number
         except (ValueError, AssertionError):
-            traceback.print_exc ()
             print ("Metric number isn't a number or isn't valid")
             input ("Press enter to continue")
             continue
