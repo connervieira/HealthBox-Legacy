@@ -18,5 +18,34 @@ The programming interface to interact with HealthBox is very simple and straight
 ### Centralization
 Instead of having to use several, or even dozens of external programs, HealthBox gives the potential for developers to store health information in one central place. This improves convenience for both users and developers.
 
+### Secure
+HealthBox uses encryption to make sure badly behaving programs can't access your health information without asking for permission.
+
 ## Screenshots
 There are currently no screenshots available.
+
+## Credits
+### Conner Vieira
+Jobs:
+* Concept
+* Main Structure
+* Naming
+* Icon
+* Branding
+* Metrics List and Descriptions
+
+Social:
+* Mastodon: @cvieira@mstdn.social (https://mstdn.social/@cvieira)
+* PixelFed: @connervieira (https://pixfed.com/connervieira)
+* Instagram: @connervieira (https://www.instagram.com/connervieira/)
+
+
+### Eric Reed
+Jobs:
+* Encryption System
+* Database System
+* Server
+* API System
+
+Social:
+* GitHub: An0nDev (https://github.com/An0nDev) 
