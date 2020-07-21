@@ -1,3 +1,8 @@
 __pycache__
+<<<<<<< HEAD
 *.json
 *.cryptodata
+=======
+
+.metrics.py.swp
+>>>>>>> 5bf655cec59f32010000168f8c3c3b11ad1e7d38
