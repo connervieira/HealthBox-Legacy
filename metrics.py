@@ -111,3 +111,47 @@ metric_categories = [
 		]
 	}
 ]
+
+def generate_metric_printout (): # Returns a string with color-formatted metric categories and metrics, intended to be printed
+	printout = ""
+	for category in metric_categories:
+		printout += f"{utils.color.BOLD}{category ['color']}{category ['id']}. {category ['name']}{utils.color.END * 2}\n"
+		metric_number = 1
+		for metric in category ["metrics"]:
+			printout += f"{category ['color']}{category ['id']}{metric_number}. {metric ['name']}{utils.color.END}\n"
+			metric_number += 1
+		printout += "\n"
+	return printout
+
+class MetricIDType:
+	METRIC_CATEGORY = 0
+	METRIC = 1
+
+def resolve_metric_id (id, to_upper = True): # Resolves a metric ID, e.g. 'A1', or metric category ID, e.g. 'A'
+	# The argument to_upper specifies whether or not to convert the given ID to uppercase before processing.
+	# Returns:
+	# success (bool), id_type (MetricIDType or None), resolved_category (dict of metric category or None), resolved_metric (dict of metric or None)
+	if to_upper:
+		modified_id = id.upper ()
+	else:
+		modified_id = id
+	matched_category = None # Assume we don't have a category that matches
+	for category in metric_categories: # Iterate over the categories until we find one that matches
+		if modified_id.startswith (category ["id"].upper () if to_upper else category ["id"]): # e.g. 'a1'.startswith ('a')
+			matched_category = category
+	if matched_category is None:
+		return False, None, None, None
+	metric_number_string = modified_id.replace (matched_category ["id"].upper () if to_upper else matched_category ["id"], "") # 'a1' -> '1'
+	if metric_number_string == "": # There's no number to specify the metric, so assume a category was the selection
+		return True, MetricIDType.METRIC_CATEGORY, matched_category, None
+	try:
+		metric_number = int (metric_number_string) # fails if not integer
+		assert metric_number >= 1 and metric_number <= len (matched_category ["metrics"]) # fails if integer isn't a metric number
+	except (ValueError, AssertionError):
+		return False, None, None, None
+
+	metric = matched_category ["metrics"] [metric_number]
+	return True, MetricIDType.METRIC, matched_category, metric
+
+def verify_metric_id (id): # Like resolve_metric_id, but only returns a True or False on whether or not the ID is valid
+	return resolve_metric_id (id) [0] # Calls resolve_metric_id, preserving only the "success" value
