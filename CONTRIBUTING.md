@@ -25,3 +25,19 @@
 		* Instead of `How many calories the person burns`, say `How many calories are burned`
 * If a disability could prevent a health metric from being applicable, also add an an alternative metric.
 	* For example, if you add the "Steps" metric, also add the "Wheelchair Pushes" metric.
+
+## Terms
+* metric
+	* Definition: A metric is an element of health tracked in HealthBox
+	* Examples:
+		* Steps
+		* Gender
+		* Protein
+		* PHQ-9 Score
+		* Blood Pressure
+* sample
+	* Definition: A measurement entered into a metric's database
+	* Examples:
+		* Sleep sample: [state of sleep, start time, end time]
+		* Steps sample: [amount of steps, start time, end time]
+		* Mood sample: [mood, time]
