@@ -17,7 +17,8 @@ metric_categories = [
 			{"name": "Resting Calories", "description": "How much energy is burned while resting"},
 			{"name": "Active Minutes", "description": "How many minutes are spent moving around, being active"},
 			{"name": "Wheelchair Pushes", "description": "How many times the wheels on a wheelchair are pushed"},
-			{"name": "Minutes Standing", "description": "How many minutes are spent standing"}
+			{"name": "Wheelchair Distance", "description": "Total distance traveled by manual wheel chair movement"},
+			{"name": "Minutes Standing", "description": "Minutes spent standing"}
 		]
 	},
 	{
@@ -25,14 +26,14 @@ metric_categories = [
 		"id": "B",
 		"color": utils.color.CYAN,
 		"metrics": [
-			{"name": "PHQ-9 Score (Depression Test)", "description": "PHQ-9 scores can be an indicator of depression, and its severity."},
+			{"name": "PHQ-9 Score (Depression Test)", "description": "PHQ-9 scores can be an indicator of depression, and its severity"},
 			{"name": "Y-BOCS Score (OCD Test)", "description": "Y-BOCS scores can be an indicator of obessive-compulsive disorder, and its severity."},
-			{"name": "GAD-7 Score (Anxiety Test)", "description": "GAD-7 scores can be an indicator of anxiety, and its severity."},
-			{"name": "MDQ Score (Bipolar Test)", "description": "MDQ scores can be an indicator of bipolar disorder, and its severity."},
-			{"name": "ASRS Score (ADHD Test)", "description": "ASRS scores can be an indicator of ADHD, and its severity."},
-			{"name": "Mindful Minutes", "description": "This is how many minutes are spent being mindful of thoughts, emotions, and feelings."},
-			{"name": "Mood", "description": "This is simply the current mood, at any given time."},
-			{"name": "Sexual Activity", "description": "This is sexual activity with a partner."}
+			{"name": "GAD-7 Score (Anxiety Test)", "description": "GAD-7 scores can be an indicator of anxiety, and its severity"},
+			{"name": "MDQ Score (Bipolar Test)", "description": "MDQ scores can be an indicator of bipolar disorder, and its severity"},
+			{"name": "ASRS Score (ADHD Test)", "description": "ASRS scores can be an indicator of ADHD, and its severity"},
+			{"name": "Mindful Minutes", "description": "Minutes spent being mindful of thoughts, emotions, and feelings"},
+			{"name": "Mood", "description": "The current mood at a point in time"},
+			{"name": "Sexual Activity", "description": "Sexual activity with a partner"}
 		]
 	},
 	{
@@ -88,24 +89,29 @@ metric_categories = [
 		"metrics": [
 			{"name": "Weight", "description": "Total body weight"},
 			{"name": "Height", "description": "Total height when standing straight upright"},
+			{"name": "Biological Sex", "description": "Gender as identified at birth"},
+			{"name": "Gender", "description": "Gender as defined by which gender one identifies with"},
+			{"name": "Sexuality", "description": "Who one is attracted to sexually"},
 			{"name": "Body Temperature", "description": "Measure of the temperature of the body "},
 			{"name": "Electrodermal Activity", "description": "Electrodermal activity serves as an indicator of how much sweat is on the skin."},
-			{"name": "Waist Circumference", "description": ""},
+			{"name": "Waist Circumference", "description": "The measurement of the circumference of the waist"},
 			{"name": "Breathing Rate", "description": "How many breaths taken each minute"},
 			{"name": "Oxygen Saturation", "description": "How much oxygen in present in the blood"},
-			{"name": "Heart Rate", "description": ""},
+			{"name": "Heart Rate", "description": "How many times per minute the heart beats"},
 			{"name": "Resting Heart Rate", "description": "Heart rate, measured while sitting, and inactive"},
 			{"name": "Walking Heart Rate", "description": "Heart rate, measured at a steady walking pace"},
 			{"name": "Running Heart Rate", "description": "Heart race, measured at a steady run"},
-			{"name": "Heart Rate Variability", "description": ""},
-			{"name": "Peripheral Perfusion Index", "description": ""},
+			{"name": "Heart Rate Variability", "description": "Variation in the time interval between heart beats"},
+			{"name": "Peripheral Perfusion Index", "description": "Relative strength of the pulse at various points on the body"},
 			{"name": "Lung Capacity", "description": "How much air the lungs are capable of holding"},
 			{"name": "VO2 Max", "description": "The maximum amount of oxygen burned while exercising"},
-			{"name": "Blood Pressure", "description": ""},
-			{"name": "Blood Sugar", "description": ""},
-			{"name": "Blood Alcohol Content", "description": ""},
-			{"name": "Sound Exposure", "description": ""},
-			{"name": "Sleep", "description": ""},
+			{"name": "Ailments", "description": "A record of injuries and illnesses, both mental and physical"},
+			{"name": "Blood Pressure", "description": "The pressure at which blood pushes against the walls of the arteries"},
+			{"name": "Blood Sugar", "description": "The amount of glucose in the blood"},
+			{"name": "Blood Alcohol Content", "description": "The amount of alcohol in the blood"},
+			{"name": "Sound Exposure", "description": "Periods of time exposed to sounds of a certain volume"},
+			{"name": "Sleep", "description": "Record of periods of sleep in its various stages"},
+			{"name": "Times Fallen", "description": "Times unintentionally fallen, with or without injury"},
 			{"name": "Atypical Pulse", "description": "A record of occasions on which heart rate was atypically fast or slow."},
 			{"name": "Audiogram", "description": "A test used to determine how loud a sound has to be to be heard."}
 		]
