@@ -1,4 +1,6 @@
-import metrics, utils, database, crypto # metrics.py, utils.py, database.py, crypto.py
+import metrics, utils, database, crypto, database_interfaces # metrics.py, utils.py, database.py, crypto.py, database_interfaces.py
+
+import traceback # For use with the debug console
 
 class HealthBoxTerminalWrapper: # contains various facilities for access to HealthBox via a terminal
     def __init__ (self):
@@ -13,50 +15,53 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
         self.crypto_data_file_name = "db.cryptodata" # TODO: this too
         self.encryption_text_encoding = "utf-8" # no reason to change this
         self.db = None # stays None until database is initialized through option 4
+
+        self.api_key_manager_terminal_wrapper = None # Initialized when option 6 in the menu is called
     def main_menu (self):
         while True: # Run the program as an endless loop until terminated
             utils.clear()
-            print("1. Start HealthBox")
+            utils.print_red_if_false ("1. Start HealthBox", self.db is not None)
             print("2. Instructions")
             print("3. Settings")
             print("4. Initialize database")
             print("5. List supported health metrics")
-            print("6. Manage Keys")
+            utils.print_red_if_false ("6. Manage API keys", self.db is not None)
             print("7. Exit")
+            # print ("c. Debug console") # This is only meant for debugging purposes, so the print statement is commented out.
             selection = input (utils.color.WHITE + "Selection: " + utils.color.END)
+            selection.lower ()
 
             utils.clear()
 
-            if selection in ["2", "3", "6"]:
-                print("This feature has not yet been implemented")
-                input("Press enter to coninue")
+            if selection in ["2", "3"]:
+                utils.pause_with_message ("This feature has not yet been implemented")
             elif selection == "1":
                 self.start ()
             elif selection == "4":
                 self.initialize_database ()
             elif selection == "5":
                 self.list_health_metrics ()
+            elif selection == "6":
+                self.manage_keys ()
             elif selection == "7":
                 break # Terminate program
+            elif selection == "c":
+                self.debug_console ()
             else:
-                print("Unknown option")
-                input("Press enter to continue")
+                utils.pause_with_message ("Unknown option")
     def start (self): # option 1 in main menu
         utils.clear ()
 
         if self.db is None:
-            print ("Initialize the database first! (option 4)")
-            input ("Press enter to continue")
+            utils.pause_with_message ("Initialize the database first! (option 4)")
             return
-        print ("Database looks good")
+        utils.pause_with_message ("Database looks good")
         # TODO: start up the web server here
-        input ("Press enter to continue")
     def initialize_database (self):
         utils.clear ()
 
         if self.db is not None:
-            print ("The database is already initialized!")
-            input ("Press enter to continue")
+            utils.pause_with_message ("The database is already initialized!")
             return
 
         print ("Your database will be encrypted so other local apps can't access your data without your permission.")
@@ -88,53 +93,60 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
 
         print ("")
         print ("Database initialized successfully.")
-        print (f"You may want to write down your encryption key \"{string_key}\" for future reference.")
-        input ("Press enter to continue")
+        utils.pause_with_message (f"You may want to write down your encryption key \"{string_key}\" for future reference.")
     def list_health_metrics (self): # option 5 in main menu
-        utils.clear ()
+        while True:
+            utils.clear ()
 
-        for category in metrics.metric_categories:
-            print (f"{utils.color.BOLD}{category ['color']}{category ['name']}{utils.color.END * 2}")
-            metric_number = 1
-            for metric in category ["metrics"]:
-                print (f"{category ['color']}{category ['id']}{metric_number}. {metric ['name']}{utils.color.END}")
-                metric_number += 1
-            print ("\n")
+            print (metrics.generate_metric_printout ())
 
-        print(utils.color.WHITE + "Q. Return to menu" + utils.color.END)
+            print(utils.color.WHITE + "q|quit: Return to menu" + utils.color.END)
 
-        selection = input(utils.color.WHITE + "Selection: " + utils.color.END)
-        selection = selection.lower () # accept lowercase selections
+            selection = input(utils.color.WHITE + "Selection: " + utils.color.END)
+            selection = selection.lower () # accept lowercase selections
 
-        if selection == "q":
+            if selection in ["q", "quit"]:
+                break
+
+            match_success, id_type, resolved_category, resolved_metric = metrics.resolve_metric_id (selection)
+            if not match_success:
+                utils.pause_with_message ("Invalid metric or metric category ID!")
+                continue
+
+            utils.clear ()
+            print (f"Metric category: {matched_category ['name']}")
+            print (f"Metric name: {metric ['name']}")
+            print (f"Metric description: {metric ['description']}")
+
+            utils.pause_with_message ("\n")
+    def manage_keys (self): # Option 6 in main menu
+        # Make sure the database has been initialized before opening the API key management menu
+        if self.db is None:
+            utils.pause_with_message ("Initialize the database first! (option 4)")
             return
-
-        matched_category = None # Assume we don't have a category that matches
-        for category in metrics.metric_categories: # Iterate over the categories until we find one that matches
-            if selection.startswith (category ["id"].lower ()): # e.g. 'a1'.startswith ('a')
-                matched_category = category
-        if matched_category is None:
-            print ("Unknown category selector")
-            input ("Press enter to continue")
-            return
-        metric_number_string = selection.replace (matched_category ["id"].lower (), "") # 'a1' -> '1'
-        try:
-            metric_number = int (metric_number_string) # fails if not integer
-            assert metric_number >= 1 and metric_number <= len (matched_category ["metrics"]) # fails if integer isn't a metric number
-        except (ValueError, AssertionError):
-            print ("Metric number isn't a number or isn't valid")
-            input ("Press enter to continue")
-            return
-
-        metric = matched_category ["metrics"] [metric_number]
-        utils.clear ()
-        print (f"Metric category: {matched_category ['name']}")
-        print (f"Metric name: {metric ['name']}")
-        print (f"Metric description: {metric ['description']}")
-
-        print ("\n")
-
-        input("Press enter to continue")
+        if self.api_key_manager_terminal_wrapper is None: # Check if an instance of the terminal wrapper has been created yet
+            self.api_key_manager_terminal_wrapper = database_interfaces.HealthBoxAPIKeyManagerTerminalWrapper (self.db) # If not, create the instance
+        self.api_key_manager_terminal_wrapper.api_key_management_menu () # Launch the menu using the terminal wrapper
+    def debug_console (self):
+        print ("Welcome to the debug console! Type your command at the >>> and type 'exit' to exit.")
+        print ("To switch to evaluate mode (the default), where your command is evaluated as an expression and printed, type '_eval'.")
+        print ("To switch to execute mode, where your command is executed (supports variable assignment, del, etc) and the result is not printed, type '_exec'.")
+        console_func = eval
+        while True:
+            command = input (">>> ")
+            if command == "exit": break
+            if command == "_eval":
+                console_func = eval
+            elif command == "_exec":
+                console_func = exec
+            else:
+                try:
+                    if console_func == eval:
+                        print (eval (command)) # Print the result of evaluating the command
+                    else:
+                        exec (command) # Execute the command; exec does not return a value
+                except:
+                    traceback.print_exc () # Print the exception thrown rather than crashing the program
 
 if __name__ == "__main__":
     HealthBoxTerminalWrapper ().main_menu ()
