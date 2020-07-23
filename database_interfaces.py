@@ -3,7 +3,7 @@ import utils, metrics # utils.py, metrics.py
 class HealthBoxAPIKeyManagerTerminalWrapper:
     def __init__ (self, db):
         self.db = db
-        self._manager = HealthKitAPIKeyManager (self.db)
+        self._manager = HealthBoxAPIKeyManager (self.db)
     def api_key_management_menu (self):
         while True: # Loop until a valid command has been entered
             utils.clear ()
@@ -113,7 +113,7 @@ class HealthBoxAPIKeyManagerTerminalWrapper:
 
 class InvalidIDError (Exception): pass
 
-class HealthKitAPIKeyManager: # This object provides a simplistic API for creating and managing API keys.
+class HealthBoxAPIKeyManager: # This object provides a simplistic API for creating and managing API keys.
     def __init__ (self, db):
         self.db = db
     def _get_key_from_actual_key (self, *, actual_key, allow_none = False): # Returns an api_key dictionary from the actual key, e.g. "8cfe6451b2204b7ea814857b1b0ce36a"
