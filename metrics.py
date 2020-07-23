@@ -156,7 +156,7 @@ def resolve_metric_id (id, to_upper = True): # Resolves a metric ID, e.g. 'A1', 
 	except (ValueError, AssertionError):
 		return False, None, None, None
 
-	metric = matched_category ["metrics"] [metric_number]
+	metric = matched_category ["metrics"] [metric_number - 1]
 	return True, MetricIDType.METRIC, matched_category, metric
 
 def verify_metric_id (id): # Like resolve_metric_id, but only returns a True or False on whether or not the ID is valid
