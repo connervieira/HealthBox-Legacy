@@ -125,7 +125,7 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
             utils.pause_with_message ("Initialize the database first! (option 4)")
             return
         if self.api_key_manager_terminal_wrapper is None: # Check if an instance of the terminal wrapper has been created yet
-            self.api_key_manager_terminal_wrapper = database_interfaces.HealthKitAPIKeyManagerTerminalWrapper (self.db) # If not, create the instance
+            self.api_key_manager_terminal_wrapper = database_interfaces.HealthBoxAPIKeyManagerTerminalWrapper (self.db) # If not, create the instance
         self.api_key_manager_terminal_wrapper.api_key_management_menu () # Launch the menu using the terminal wrapper
     def debug_console (self):
         print ("Welcome to the debug console! Type your command at the >>> and type 'exit' to exit.")

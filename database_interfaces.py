@@ -1,6 +1,6 @@
 import utils, metrics # utils.py, metrics.py
 
-class HealthKitAPIKeyManagerTerminalWrapper:
+class HealthBoxAPIKeyManagerTerminalWrapper:
     def __init__ (self, db):
         self.db = db
         self._manager = HealthKitAPIKeyManager (self.db)
@@ -47,8 +47,11 @@ class HealthKitAPIKeyManagerTerminalWrapper:
             elif command_name == "delete":
                 self._manager.delete (api_key = api_key)
             elif command_name == "log":
+                utils.clear ()
+                print (f"Log entries for API key {api_key ['friendly_name']}:")
                 for log_entry in self._manager.get_log_entries (api_key = api_key):
                     print (log_entry) # TODO: Improve this by adding parsing of the log entry dictionary
+                utils.pause_with_message ("")
             elif command_name == "clear-log":
                 self._manager.clear_log (api_key = api_key)
             elif command_name == "quit":
