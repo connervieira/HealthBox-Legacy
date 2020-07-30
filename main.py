@@ -1,4 +1,4 @@
-import metrics, utils, database, crypto, database_interfaces # metrics.py, utils.py, database.py, crypto.py, database_interfaces.py
+import metrics, utils, database, crypto, database_interfaces, web_server # metrics.py, utils.py, database.py, crypto.py, database_interfaces.py, web_server.py
 
 import numpy
 import pickle
@@ -38,6 +38,7 @@ def settings():
     input("Test")
 
 class HealthBoxTerminalWrapper: # contains various facilities for access to HealthBox via a terminal
+    version = "BETA (WIP)" # This string is currently part of a message shown when the root of the web server is accessed.
     def __init__ (self):
         self.db_file_name = "db.json" # TODO: add a way to change this
         self.default_db_data = {
@@ -52,10 +53,18 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
         self.db = None # stays None until database is initialized through option 4
 
         self.api_key_manager_terminal_wrapper = None # Initialized when option 6 in the menu is called
+
+        # TODO: Add a way to change these web server settings.
+        self.web_server_host = "0.0.0.0"
+        self.web_server_port = 5050
+        self.web_server = web_server.HealthBoxWebServer (host = self.web_server_host, port = self.web_server_port, terminal_wrapper = self)
     def main_menu (self):
         while True: # Run the program as an endless loop until terminated
             utils.clear()
-            utils.print_red_if_false ("1. Start HealthBox", self.db is not None)
+            if not self.web_server.is_running:
+                utils.print_red_if_false ("1. Start HealthBox", self.db is not None)
+            else:
+                print ("1. Shut down HealthBox")
             print("2. Instructions")
             print("3. Settings")
             print("4. Initialize database")
@@ -71,9 +80,13 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
             if selection == "2":
                 utils.pause_with_message ("This feature has not yet been implemented")
             elif selection == "1":
+<<<<<<< HEAD
                 self.start()
             elif selection == "3":
                 settings()
+=======
+                self.start_or_stop_web_server ()
+>>>>>>> 288720ca6e27dc8a5000d15f89a92e0fac6fc186
             elif selection == "4":
                 self.initialize_database()
             elif selection == "5":
@@ -86,14 +99,19 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
                 self.debug_console ()
             else:
                 utils.pause_with_message ("Unknown option")
-    def start (self): # option 1 in main menu
+    def start_or_stop_web_server (self): # Option 1 in main menu
         utils.clear ()
 
         if self.db is None:
             utils.pause_with_message ("Initialize the database first! (option 4)")
             return
-        utils.pause_with_message ("Database looks good")
-        # TODO: start up the web server here
+
+        if not self.web_server.is_running:
+            # Since the web server isn't running, run it.
+            self.web_server.run ()
+        else:
+            # Since the web server is running, shut it down.
+            self.web_server.shutdown ()
     def initialize_database (self):
         utils.clear ()
 
