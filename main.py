@@ -25,7 +25,7 @@ def prepare_settings_database():
                 settings_database_array = ["true", "placeholder", "placeholder", "placeholder"] # Default settings
                 settings_database.write(pickle.dumps(settings_database_array, protocol=0))
                 settings_database.close()
-                
+
             else: # If the settings database does exist, open it, and load the database from it
                 print("The vOS file system appears to be intact")
                 settings_database = open(config_root + "/settings.db", "rb")
@@ -80,13 +80,9 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
             if selection == "2":
                 utils.pause_with_message ("This feature has not yet been implemented")
             elif selection == "1":
-<<<<<<< HEAD
-                self.start()
+                self.start_or_stop_web_server ()
             elif selection == "3":
                 settings()
-=======
-                self.start_or_stop_web_server ()
->>>>>>> 288720ca6e27dc8a5000d15f89a92e0fac6fc186
             elif selection == "4":
                 self.initialize_database()
             elif selection == "5":
@@ -151,7 +147,7 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
             del self.db ["metric_categories"]
             self.db ["metrics"] = {}
             self.db.save ()
-        
+
         print ("")
         print ("Database initialized successfully.")
         utils.pause_with_message (f"You may want to write down your encryption key \"{string_key}\" for future reference.")
