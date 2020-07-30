@@ -67,6 +67,7 @@ class RequestHandler (http.server.BaseHTTPRequestHandler):
                 variable_name_and_value = query_string_segment.split ('=')
                 if len (variable_name_and_value) != 2: continue
                 variable_name, variable_value = variable_name_and_value
+                variable_name = variable_name.replace ('+', ' ')
                 variable_value = urllib.parse.unquote (variable_value) # Replaces "%20" with ' ', etc.
                 parsed_query_string_variables [variable_name] = variable_value
             self.args = parsed_query_string_variables
