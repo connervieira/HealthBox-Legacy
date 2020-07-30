@@ -1,5 +1,6 @@
 import http.server
 import threading
+import urllib.parse
 
 import base_web_server_route_url_management # base_web_server_route_url_management.py
 
@@ -53,8 +54,26 @@ class RequestHandler (http.server.BaseHTTPRequestHandler):
             reverse = True, # Allows routes with priority marked as True (with a sort value of 1) to be forced to the front, with lower list indices
             key = lambda route_tuple: int (route_tuple [1] ["priority"]) # Returns 1 if priority, 0 if not
         )
+        path_with_query_string = self.path
+        if '?' in path_with_query_string: # Path has a query string
+            split_path = path_with_query_string.split ('?')
+            path = '?'.join (split_path [:-1])
+            self.query_string = split_path [-1]
+            parsed_query_string_variables = {}
+            query_string_segments = self.query_string.split ('&')
+            for query_string_segment in query_string_segments:
+                if query_string_segment == '': continue
+                variable_name_and_value = query_string_segment.split ('=')
+                if len (variable_name_and_value) != 2: continue
+                variable_name, variable_value = variable_name_and_value
+                variable_value = urllib.parse.unquote (variable_value) # Replaces "%20" with ' ', etc.
+                parsed_query_string_variables [variable_name] = variable_value
+            self.args = parsed_query_string_variables
+        else: # Path doesn't have a query string
+            path = path_with_query_string
+            self.args = {}
         for route_url, route_info in route_list:
-            match_success, url_variables = base_web_server_route_url_management.URLMatcher.check_url_against_parsed_route_url (url = self.path, parsed_route_url = route_info ["parsed_route_url"])
+            match_success, url_variables = base_web_server_route_url_management.URLMatcher.check_url_against_parsed_route_url (url = path, parsed_route_url = route_info ["parsed_route_url"])
             if match_success:
                 route_matched = True
                 break
