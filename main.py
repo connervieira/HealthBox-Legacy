@@ -1,45 +1,16 @@
 import metrics, utils, database, crypto, database_interfaces, web_server # metrics.py, utils.py, database.py, crypto.py, database_interfaces.py, web_server.py
 
-import numpy
+# import numpy # Usage unknown
+import os
+from pathlib import Path
 import pickle
 import traceback # For use with the debug console
-
-config_root = str(Path.home()) + "/.config/HealthBox"
-
-
-def prepare_settings_database():
-
-    # settings_database_array[0] is whether or not to highlight invalid options as red
-
-    if os.path.isdir(str(Path.home()) + "/.config") == False:
-        print("Error: ~/.config is missing")
-        print("This suggests that your host OS might be damaged")
-    else:
-        if os.path.isdir(config_root + "") == False:
-            # ~/.config/HealthBox doesn't exist, and will be created
-            os.mkdir(config_root + "") # Create ~/.config/HealthBox
-        else:
-            if os.path.isfile(config_root + "/settings.db") == False: # If the settings database doesn't exist, create it, and fill it with the default array
-                # ~/.config/HealthBox/settings.db is missing, and will be created
-                settings_database = open(config_root + "/settings.db", "wb")
-                settings_database_array = ["true", "placeholder", "placeholder", "placeholder"] # Default settings
-                settings_database.write(pickle.dumps(settings_database_array, protocol=0))
-                settings_database.close()
-
-            else: # If the settings database does exist, open it, and load the database from it
-                print("The vOS file system appears to be intact")
-                settings_database = open(config_root + "/settings.db", "rb")
-                settings_database_array = pickle.loads(settings_database.read())
-                settings_database.close()
-
-def settings():
-    prepare_settings_database()
-    utils.clear()
-    input("Test")
 
 class HealthBoxTerminalWrapper: # contains various facilities for access to HealthBox via a terminal
     version = "BETA (WIP)" # This string is currently part of a message shown when the root of the web server is accessed.
     def __init__ (self):
+        utils.clear ()
+        print ("HealthBox is starting up, one moment...\n")
         self.db_file_name = "db.json" # TODO: add a way to change this
         self.default_db_data = {
             "api_keys": [],
@@ -58,6 +29,12 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
         self.web_server_host = "0.0.0.0"
         self.web_server_port = 5050
         self.web_server = web_server.HealthBoxWebServer (host = self.web_server_host, port = self.web_server_port, terminal_wrapper = self)
+
+        # TODO: Add a way to change the config root.
+        self.config_root = str (Path.home ()) + "/.config/HealthBox"
+        print ("Preparing the settings database...")
+        self._prepare_settings_database ()
+        utils.pause_with_message ("\nReady. Welcome to HealthBox!")
     def main_menu (self):
         while True: # Run the program as an endless loop until terminated
             utils.clear()
@@ -82,7 +59,7 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
             elif selection == "1":
                 self.start_or_stop_web_server ()
             elif selection == "3":
-                settings()
+                self.settings()
             elif selection == "4":
                 self.initialize_database()
             elif selection == "5":
@@ -95,6 +72,32 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
                 self.debug_console ()
             else:
                 utils.pause_with_message ("Unknown option")
+    def _prepare_settings_database (self):
+
+        # settings_database_array[0] is whether or not to highlight invalid options as red
+
+        if os.path.isdir(str(Path.home()) + "/.config") == False: # ~/.config is missing, we're probably on Windows or something nasty happened to the OS
+            os.mkdir (str (Path.home ()) + "/.config") # Create ~/.config
+        if os.path.isdir(self.config_root + "") == False:
+            # ~/.config/HealthBox doesn't exist, and will be created
+            os.mkdir(self.config_root + "") # Create ~/.config/HealthBox
+        else:
+            if os.path.isfile(self.config_root + "/settings.db") == False: # If the settings database doesn't exist, create it, and fill it with the default array
+                # ~/.config/HealthBox/settings.db is missing, and will be created
+                self.settings_database_array = ["true", "placeholder", "placeholder", "placeholder"] # Default settings
+                self._save_settings_database ()
+            else: # If the settings database does exist, open it, and load the database from it
+                print("The vOS file system appears to be intact")
+                settings_database_file = open(self.config_root + "/settings.db", "rb")
+                self.settings_database_array = pickle.loads(settings_database_file.read())
+                settings_database_file.close()
+    def _save_settings_database (self):
+        settings_database_file = open(self.config_root + "/settings.db", "wb")
+        settings_database_file.write(pickle.dumps(self.settings_database_array, protocol=0)) # protocol = 0 forces pickle to use the original, human-readable serialization format
+        settings_database_file.close()
+    def settings (self):
+        utils.clear()
+        utils.pause_with_message ("Settings menu coming soon")
     def start_or_stop_web_server (self): # Option 1 in main menu
         utils.clear ()
 
