@@ -1,6 +1,7 @@
 import http.server
 import threading
 import urllib.parse
+import json
 
 import base_web_server_route_url_management # base_web_server_route_url_management.py
 
@@ -122,6 +123,10 @@ class Response:
             from_code = True,
             **kwargs
         )
+    @staticmethod
+    def init_with_json (*, data, **kwargs):
+        data_as_json = json.dumps (data)
+        return Response.init_with_text (text = data_as_json, content_type = "application/json; charset=UTF-8", **kwargs)
 
 # Add functions to RequestHandler for each method name based on a list of method names
 # (HTTPServer finds the function to call based on the HTTP method, so we need a function for each HTTP method for maximum compatibility.)

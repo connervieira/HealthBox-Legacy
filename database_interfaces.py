@@ -1,16 +1,16 @@
 import utils, metrics # utils.py, metrics.py
 
 class HealthBoxAPIKeyManagerTerminalWrapper:
-    def __init__ (self, db):
-        self.db = db
-        self._manager = HealthBoxAPIKeyManager (self.db)
+    def __init__ (self, terminal_wrapper):
+        self.terminal_wrapper = terminal_wrapper
+        self._manager = HealthBoxAPIKeyManager (self.terminal_wrapper)
     def api_key_management_menu (self):
         while True: # Loop until a valid command has been entered
             utils.clear ()
             # List all API keys
             print ("API keys: ")
             api_key_number = 1
-            for api_key in self.db ["api_keys"]:
+            for api_key in self.terminal_wrapper.db ["api_keys"]:
                 print (f"#{api_key_number}:")
                 print (f"Friendly name: {api_key ['friendly_name']}")
                 print (f"Key: {api_key ['key']}")
@@ -113,22 +113,25 @@ class HealthBoxAPIKeyManagerTerminalWrapper:
 
 class InvalidIDError (Exception): pass
 
+class InvalidTargetMetricIDError (Exception): pass
+class InternalError (Exception): pass
+
 class HealthBoxAPIKeyManager: # This object provides a simplistic API for creating and managing API keys.
-    def __init__ (self, db):
-        self.db = db
+    def __init__ (self, terminal_wrapper):
+        self.terminal_wrapper = terminal_wrapper
     def _get_key_from_actual_key (self, *, actual_key, allow_none = False): # Returns an api_key dictionary from the actual key, e.g. "8cfe6451b2204b7ea814857b1b0ce36a"
-        for api_key in self.db ["api_keys"]:
+        for api_key in self.terminal_wrapper.db ["api_keys"]:
             if api_key ["key"] == actual_key:
                 return api_key
         if allow_none:
             return None
         else:
             raise InvalidIDError (id)
-    def _get_list_of_actual_keys (self): return list (api_key ["key"] for api_key in self.db ["api_keys"])
+    def _get_list_of_actual_keys (self): return list (api_key ["key"] for api_key in self.terminal_wrapper.db ["api_keys"])
     def _parse_key_number_string (self, key_number_string):
         # Returns success (bool), key (dict) or None
         try:
-            api_key = self.db ["api_keys"] [int (key_number_string) - 1]
+            api_key = self.terminal_wrapper.db ["api_keys"] [int (key_number_string) - 1]
             return True, api_key
         except (ValueError, IndexError):
             return False, None
@@ -141,27 +144,43 @@ class HealthBoxAPIKeyManager: # This object provides a simplistic API for creati
             "filter": [],
             "log_entries": []
         }
-        self.db ["api_keys"].append (api_key)
-        self.db.save ()
+        self.terminal_wrapper.db ["api_keys"].append (api_key)
+        self.terminal_wrapper.db.save ()
     def edit_friendly_name (self, *, api_key, friendly_name):
         api_key ["friendly_name"] = friendly_name
-        self.db.save ()
+        self.terminal_wrapper.db.save ()
     def set_type (self, *, api_key, type):
         api_key ["type"] = type
-        self.db.save ()
+        self.terminal_wrapper.db.save ()
     def set_security (self, *, api_key, security):
         api_key ["security"] = security
-        self.db.save ()
+        self.terminal_wrapper.db.save ()
     def delete (self, *, api_key):
-        self.db ["api_keys"].remove (api_key)
-        self.db.save ()
+        self.terminal_wrapper.db ["api_keys"].remove (api_key)
+        self.terminal_wrapper.db.save ()
+    def add_log_entry (self, *, api_key, log_entry):
+        api_key ["log_entries"].append (log_entry)
+        self.terminal_wrapper.db.save ()
     def get_log_entries (self, *, api_key):
         return api_key ["log_entries"]
     def clear_log (self, *, api_key):
         api_key ["log_entries"] = []
-        self.db.save ()
+        self.terminal_wrapper.db.save ()
     def get_filter (self, *, api_key):
         return api_key ["filter"]
     def set_filter (self, *, api_key, filter):
         api_key ["filter"] = filter
-        self.db.save ()
+        self.terminal_wrapper.db.save ()
+    def check_if_filter_contains (self, *, api_key, target_metric_id):
+        metric_id_resolution_success, metric_id_type, resolved_category, resolved_metric = metrics.resolve_metric_id (target_metric_id)
+        if (not metric_id_resolution_success) or metric_id_type != metrics.MetricIDType.METRIC:
+            raise InvalidTargetMetricIDError (f"Invalid metric ID {metric_id}!")
+        for metric_id_in_filter in api_key ["filter"]:
+            metric_id_in_filter_resolution_success, metric_id_in_filter_type, resolved_category_in_filter, resolved_metric_in_filter = metrics.resolve_metric_id (metric_id_in_filter)
+            if not metric_id_in_filter:
+                raise InternalError (f"Filter contains invalid metric ID {metric_id_in_filter}!")
+            if metric_id_in_filter_type == metrics.MetricIDType.METRIC_CATEGORY:
+                if resolved_category_in_filter == resolved_category: return True
+            elif metric_id_in_filter_type == metrics.MetricIDType.METRIC:
+                if resolved_metric_in_filter == resolved_metric: return True
+        return False

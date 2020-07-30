@@ -8,16 +8,16 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
         self.db_file_name = "db.json" # TODO: add a way to change this
         self.default_db_data = {
             "api_keys": [],
-            # an entry for each metric category is created
+            # An entry for each metric is created
             # when data is submitted to the server for the first time.
-            # this saves space if certain metrics are never tracked
-            "metric_categories": []
+            # This saves space if certain metrics are never tracked.
+            "metrics": {}
         }
         self.crypto_data_file_name = "db.cryptodata" # TODO: this too
         self.encryption_text_encoding = "utf-8" # no reason to change this
         self.db = None # stays None until database is initialized through option 4
 
-        self.api_key_manager_terminal_wrapper = None # Initialized when option 6 in the menu is called
+        self.api_key_manager_terminal_wrapper = database_interfaces.HealthBoxAPIKeyManagerTerminalWrapper (self) # Initialized on app initialization for use by the web server's API handling
 
         # TODO: Add a way to change these web server settings.
         self.web_server_host = "0.0.0.0"
@@ -105,6 +105,12 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
                 self.db.string_key = string_key
             if good_key: break
 
+        # A fix for an old default database structure
+        if "metric_categories" in self.db:
+            del self.db ["metric_categories"]
+            self.db ["metrics"] = {}
+            self.db.save ()
+        
         print ("")
         print ("Database initialized successfully.")
         utils.pause_with_message (f"You may want to write down your encryption key \"{string_key}\" for future reference.")
@@ -138,8 +144,6 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
         if self.db is None:
             utils.pause_with_message ("Initialize the database first! (option 4)")
             return
-        if self.api_key_manager_terminal_wrapper is None: # Check if an instance of the terminal wrapper has been created yet
-            self.api_key_manager_terminal_wrapper = database_interfaces.HealthBoxAPIKeyManagerTerminalWrapper (self.db) # If not, create the instance
         self.api_key_manager_terminal_wrapper.api_key_management_menu () # Launch the menu using the terminal wrapper
     def debug_console (self):
         print ("Welcome to the debug console! Type your command at the >>> and type 'exit' to exit.")
