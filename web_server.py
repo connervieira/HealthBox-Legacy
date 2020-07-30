@@ -61,9 +61,6 @@ class HealthBoxWebServerRoutes:
             return base_web_server.Response.init_with_json (data = response)
         if caller_type not in ["source", "app"]:
             return generate_error_response (error_text = "Bad caller type!")
-        print (f"Caller type: {caller_type}")
-        print (f"Endpoint: {endpoint}")
-        print (f"URL arguments: {request_handler.args}")
         if "api_key" not in request_handler.args:
             return generate_error_response (error_text = "No API key!")
         api_key = request_handler.args ["api_key"]
@@ -71,7 +68,6 @@ class HealthBoxWebServerRoutes:
         api_key_has_match = False
         for valid_api_key in self.terminal_wrapper.db ["api_keys"]:
             if valid_api_key ["key"] != api_key: continue
-            print ("Found matching key!")
             api_key_has_match = True
             matching_api_key = valid_api_key
         if not api_key_has_match: return generate_error_response (error_text = "Invalid API key!")
@@ -93,7 +89,6 @@ class HealthBoxWebServerRoutes:
             metric_id_resolution_success, metric_id_type, resolved_category, resolved_metric = metrics.resolve_metric_id (metric_id)
             if (not metric_id_resolution_success) or metric_id_type != metrics.MetricIDType.METRIC:
                 return generate_error_response (api_key = matching_api_key, error_text = f"Invalid metric ID {metric_id}!")
-            print (f"Resolved metric: {resolved_metric}")
             # Check whether or not we're allowed to operate on this metric based on the API key settings.
             if matching_api_key ["security"] == "all":
                 pass # We don't have to check the metric since we're allowed to operate on all metrics.
@@ -112,7 +107,7 @@ class HealthBoxWebServerRoutes:
                 return generate_error_response (api_key = matching_api_key, error_text = f"Invalid metric action {metric_action} for caller type {caller_type}!")
             if metric_id not in self.terminal_wrapper.db ["metrics"]:
                 metric_data = {"entries": []}
-                self.terminal_wrapper.db [metric_id] = metric_data
+                self.terminal_wrapper.db ["metrics"] [metric_id] = metric_data
             else:
                 metric_data = self.terminal_wrapper.db ["metrics"] [metric_id]
             if metric_action == "current":
@@ -129,12 +124,12 @@ class HealthBoxWebServerRoutes:
                     submission = json.loads (submission_json)
                 except json.decoder.JSONDecodeError:
                     return generate_error_response (api_key = matching_api_key, error_text = "Invalid submission data was provided!")
-                if "timestamp" not in submission or not submission ["timestamp"].isdigit (): # isdigit () is only True if all characters in the string are digits and there is at least one character.
-                    return generate_error_response (api_key = matching_api_key, error_text = "The submission timestamp was either not provided or invalid!")
+                if "timestamp" not in submission or not isinstance (submission ["timestamp"], int):
+                    return generate_error_response (api_key = matching_api_key, error_text = "The submission timestamp was either not provided or not an integer!")
                 if "data" not in submission: # TODO: add more complex validation for data
                     return generate_error_response (api_key = matching_api_key, error_text = "The submission data was not provided!")
-                metric_data.append (submission)
-                metric_data.sort (key = lambda metric_data_entry: metric_data_entry ["timestamp"])
+                metric_data ["entries"].append (submission)
+                metric_data ["entries"].sort (key = lambda metric_data_entry: metric_data_entry ["timestamp"])
                 # TODO: implement binary search algorithm instead of appending and re-sorting the list every time, as this quickly becomes more computationally expensive.
                 self.terminal_wrapper.db.save ()
                 return generate_success_response (api_key = matching_api_key)
