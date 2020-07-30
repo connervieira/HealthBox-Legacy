@@ -11,7 +11,7 @@ class HealthBoxWebServer:
         self.port = port
 
         # Make a new base web server instance.
-        self.base_web_server = base_web_server.BaseWebServer (logging_enabled = False)
+        self.base_web_server = base_web_server.BaseWebServer (host = host, port = port, logging_enabled = False)
 
         self.is_running = False # Make a variable representing whether or not the server is running.
 
