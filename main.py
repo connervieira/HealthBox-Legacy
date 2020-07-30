@@ -1,6 +1,41 @@
 import metrics, utils, database, crypto, database_interfaces # metrics.py, utils.py, database.py, crypto.py, database_interfaces.py
 
+import numpy
+import pickle
 import traceback # For use with the debug console
+
+config_root = str(Path.home()) + "/.config/HealthBox"
+
+
+def prepare_settings_database():
+
+    # settings_database_array[0] is whether or not to highlight invalid options as red
+
+    if os.path.isdir(str(Path.home()) + "/.config") == False:
+        print("Error: ~/.config is missing")
+        print("This suggests that your host OS might be damaged")
+    else:
+        if os.path.isdir(config_root + "") == False:
+            # ~/.config/HealthBox doesn't exist, and will be created
+            os.mkdir(config_root + "") # Create ~/.config/HealthBox
+        else:
+            if os.path.isfile(config_root + "/settings.db") == False: # If the settings database doesn't exist, create it, and fill it with the default array
+                # ~/.config/HealthBox/settings.db is missing, and will be created
+                settings_database = open(config_root + "/settings.db", "wb")
+                settings_database_array = ["true", "placeholder", "placeholder", "placeholder"] # Default settings
+                settings_database.write(pickle.dumps(settings_database_array, protocol=0))
+                settings_database.close()
+                
+            else: # If the settings database does exist, open it, and load the database from it
+                print("The vOS file system appears to be intact")
+                settings_database = open(config_root + "/settings.db", "rb")
+                settings_database_array = pickle.loads(settings_database.read())
+                settings_database.close()
+
+def settings():
+    prepare_settings_database()
+    utils.clear()
+    input("Test")
 
 class HealthBoxTerminalWrapper: # contains various facilities for access to HealthBox via a terminal
     def __init__ (self):
@@ -29,18 +64,20 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
             print("7. Exit")
             # print ("c. Debug console") # This is only meant for debugging purposes, so the print statement is commented out.
             selection = input (utils.color.WHITE + "Selection: " + utils.color.END)
-            selection.lower ()
+            selection.lower()
 
             utils.clear()
 
-            if selection in ["2", "3"]:
+            if selection == "2":
                 utils.pause_with_message ("This feature has not yet been implemented")
             elif selection == "1":
-                self.start ()
+                self.start()
+            elif selection == "3":
+                settings()
             elif selection == "4":
-                self.initialize_database ()
+                self.initialize_database()
             elif selection == "5":
-                self.list_health_metrics ()
+                self.list_health_metrics()
             elif selection == "6":
                 self.manage_keys ()
             elif selection == "7":
