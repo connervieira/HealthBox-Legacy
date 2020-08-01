@@ -1,0 +1,3 @@
+[submodule "base_web_server"]
+	path = base_web_server
+	url = https://github.com/An0nDev/base_web_server

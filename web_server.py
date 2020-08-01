@@ -1,4 +1,6 @@
-import utils, base_web_server, metrics # utils.py, base_web_server.py, metrics.py
+import utils, metrics # utils.py, metrics.py
+import base_web_server.Server.Server as Server
+import base_web_server.Responses.Response as Response
 
 import json
 import http.server
@@ -11,7 +13,7 @@ class HealthBoxWebServer:
         self.port = port
 
         # Make a new base web server instance.
-        self.base_web_server = base_web_server.BaseWebServer (host = host, port = port, logging_enabled = False)
+        self.base_web_server = Server.Server (host = host, port = port, logging_enabled = False)
 
         self.is_running = False # Make a variable representing whether or not the server is running.
 
@@ -43,7 +45,7 @@ class HealthBoxWebServerRoutes:
     # The following functions handle certain routes.
     # Look in the routes dictionary to see which routes match which functions.
     def root (self):
-        return base_web_server.Response.init_with_text (text = f"HealthBox version {self.terminal_wrapper.version} is running!") # This is a placeholder
+        return Response.Response.init_with_text (text = f"HealthBox version {self.terminal_wrapper.version} is running!") # This is a placeholder
     def api (self, request_handler, caller_type, endpoint):
         log_entry = {"client_address": f"{request_handler.client_address [0]}:{request_handler.client_address [1]}", "caller_type": caller_type, "endpoint": endpoint}
         def generate_success_response (*, api_key, **extra_data):
@@ -52,13 +54,13 @@ class HealthBoxWebServerRoutes:
             log_entry ["extra_data"] = extra_data
             self.terminal_wrapper.api_key_manager_terminal_wrapper._manager.add_log_entry (api_key = matching_api_key, log_entry = log_entry)
             response = {"success": True, "error": None, **extra_data}
-            return base_web_server.Response.init_with_json (data = response)
+            return Response.Response.init_with_json (data = response)
         def generate_error_response (*, api_key = None, error_text):
             log_entry ["success"] = False
             log_entry ["error"] = error_text
             if api_key is not None: self.terminal_wrapper.api_key_manager_terminal_wrapper._manager.add_log_entry (api_key = api_key, log_entry = log_entry)
             response = {"success": False, "error": error_text}
-            return base_web_server.Response.init_with_json (data = response)
+            return Response.Response.init_with_json (data = response)
         if caller_type not in ["source", "app"]:
             return generate_error_response (error_text = "Bad caller type!")
         if "api_key" not in request_handler.args:
