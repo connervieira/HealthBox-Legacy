@@ -5,8 +5,8 @@ An open source platform to centralize health information
 ## Binaries
 There are currently no binaries available, but when complete, builds will be found at https://v0lttech.com/healthbox.php
 
-## Developer instructions
-Are you looking to write an application that uses the HealthBox API? Detailed documentation on how the API works is available in [api.md](api.md).
+## Developer Instructions
+Are you looking to write an application that uses the HealthBox API? Detailed documentation on how the API works is available in [DOCUMENTATION.md](DOCUMENTATION.md).
 
 ## Features
 ### Modular Design
