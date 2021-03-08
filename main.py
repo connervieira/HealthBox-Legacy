@@ -87,7 +87,6 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
                 self.settings_database_array = ["true", "placeholder", "placeholder", "placeholder"] # Default settings
                 self._save_settings_database ()
             else: # If the settings database does exist, open it, and load the database from it
-                print("The vOS file system appears to be intact")
                 settings_database_file = open(self.config_root + "/settings.db", "rb")
                 self.settings_database_array = pickle.loads(settings_database_file.read())
                 settings_database_file.close()
