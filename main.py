@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import pickle
 import traceback # For use with the debug console
+import json # for importing/exporting the database contents
 
 class HealthBoxTerminalWrapper: # contains various facilities for access to HealthBox via a terminal
     version = "BETA (WIP)" # This string is currently part of a message shown when the root of the web server is accessed.
@@ -44,10 +45,11 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
                 print ("1. Shut down HealthBox")
             print("2. Instructions")
             print("3. Settings")
-            print("4. Initialize database")
-            print("5. List supported health metrics")
-            utils.print_red_if_false ("6. Manage API keys", self.db is not None)
-            print("7. Exit")
+            utils.print_red_if_false ("4. Initialize database", self.db is None)
+            utils.print_red_if_false ("5. Import or export database", self.db is not None)
+            print("6. List supported health metrics")
+            utils.print_red_if_false ("7. Manage API keys", self.db is not None)
+            print("8. Exit")
             # print ("c. Debug console") # This is only meant for debugging purposes, so the print statement is commented out.
             selection = input (utils.color.WHITE + "Selection: " + utils.color.END)
             selection.lower()
@@ -63,10 +65,12 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
             elif selection == "4":
                 self.initialize_database()
             elif selection == "5":
-                self.list_health_metrics()
+                self.import_or_export_database ()
             elif selection == "6":
-                self.manage_keys ()
+                self.list_health_metrics()
             elif selection == "7":
+                self.manage_keys ()
+            elif selection == "8":
                 break # Terminate program
             elif selection == "c":
                 self.debug_console ()
@@ -153,7 +157,45 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
         print ("")
         print ("Database initialized successfully.")
         utils.pause_with_message (f"You may want to write down your encryption key \"{string_key}\" for future reference.")
-    def list_health_metrics (self): # option 5 in main menu
+    def import_or_export_database (self):
+        if self.db is None:
+            utils.pause_with_message ("Initialize the database first! (option 4)")
+            return
+        while True:
+            utils.clear ()
+            print ("Commands:")
+            print ("i|import: Import the contents of the database as a JSON string")
+            print ("e|export: Export the contents of the database as a JSON string")
+            print ("p|print: Pretty-print the contents of the database for easy inspection")
+            print ("q|quit: Exit to main menu")
+
+            command = input ("Enter your command: ")
+            command_name, command_argument = utils.parse_command (command)
+            command_name_resolution_success, command_name = utils.resolve_aliases (command_name, [["import", "i"], ["export", "e"], ["print", "p"], ["quit", "q"]])
+            if not command_name_resolution_success:
+                utils.pause_with_message ("Invalid command!")
+                continue
+            if command_name == "import":
+                while True:
+                    imported_db_string = input ("Paste the JSON string with the database contents (hit Enter to cancel): ")
+                    if imported_db_string == "": break
+                    try:
+                        imported_db = json.loads (imported_db_string)
+                    except json.decoder.JSONDecodeError:
+                        print ("JSON decode error! Is that a valid JSON string? (Make sure there aren't newlines)")
+                        continue
+                    self.db._db = imported_db # write directly to the internal dictionary
+                    utils.pause_with_message ("Database contents successfully imported!")
+                    break
+            elif command_name == "export":
+                utils.pause_with_message ("On the following screen, the database contents will be visible; use the Select All function in your terminal emulator to copy them, then press Enter to continue.")
+                utils.clear ()
+                input (json.dumps (self.db._db))
+                utils.pause_with_message ("Database contents successfully exported!")
+            elif command_name == "print":
+                utils.pause_with_message (json.dumps (self.db._db, indent = 4))
+            elif command_name == "quit": break
+    def list_health_metrics (self): # option 6 in main menu
         while True:
             utils.clear ()
 
@@ -178,7 +220,7 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
             print (f"Metric description: {metric ['description']}")
 
             utils.pause_with_message ("\n")
-    def manage_keys (self): # Option 6 in main menu
+    def manage_keys (self): # Option 7 in main menu
         # Make sure the database has been initialized before opening the API key management menu
         if self.db is None:
             utils.pause_with_message ("Initialize the database first! (option 4)")
