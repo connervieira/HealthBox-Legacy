@@ -1,3 +1,8 @@
+# HealthBox
+# V0LT
+# Version 1.2
+# Licensed under the GPLv3
+
 import metrics, utils, database, crypto, database_interfaces, web_server # metrics.py, utils.py, database.py, crypto.py, database_interfaces.py, web_server.py
 
 # import numpy # Usage unknown
