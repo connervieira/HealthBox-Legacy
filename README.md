@@ -40,9 +40,9 @@ HealthBox uses encryption to make sure badly behaving programs can't access your
 
 ## Usage
 
-To use HealthBox, download the latest version, then run `main.py` using Python 3. You can do so by running these commands on GNU/Linux.
+To use HealthBox, download the latest version, then run `main.py` using Python 3. These instructions explain how to do that using the command line on GNU/Linux, MacOS, and Android. On Windows, the process is similar, but may require tweaking many of the commands.
 
-1. `git clone https://github.com/connervieira/HealthBox`
+1. `git clone https://github.com/connervieira/HealthBox --recurse-submodules`
 2. `cd HealthBox`
 3. `pip3 install pycryptodomex`
 4. `python3 main.py`
