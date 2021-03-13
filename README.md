@@ -7,7 +7,7 @@ An open source platform to centralize health information
 
 ## Download
 
-Since HealthBox is written in Python, and Python is an interpreted language, the source code serves as the executable. To obtain the source code, you can either clone this repository to your computer's disk, or download it as a compressed file at <https://v0lttech.com/healthbox>
+Since HealthBox is written in Python, and Python is an interpreted language, the source code serves as the executable. To obtain the source code, you can either clone this repository to your computer's disk, or download it as a compressed file at <https://v0lttech.com/healthbox.php>
 
 
 ## Developer Instructions
@@ -53,24 +53,5 @@ Another fact to keep note of is that HealthBox will create it's database in what
 
 
 ## Credits
-### Conner Vieira
-Jobs:
-* Concept
-* Main Structure
-* Naming
-* Icon and Branding
-* Metrics List and Descriptions
 
-Social:
-* Mastodon: @cvieira@mstdn.social (https://mstdn.social/@cvieira)
-* PixelFed: @connervieira (https://pixfed.com/connervieira)
-
-### Eric Reed
-Jobs:
-* Encryption System
-* Database System
-* Server
-* API System
-
-Social:
-* GitHub: An0nDev (https://github.com/An0nDev)
+Special thanks to [https://github.com/An0nDev](An0nDev) on GitHub for developing the server backend that HealthBox depends on!
