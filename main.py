@@ -12,12 +12,33 @@ import pickle
 import traceback # For use with the debug console
 import json # for importing/exporting the database contents
 
+
+
+
+# ----- Configuration -----
+
+# The server_port is simply the port that HealthBox runs on. 5050 should work for most situations, but in the event that this conflicts with another service, you may want to change it here.
+server_port = 5050
+
+
+
+# This is the file name of the file that HealthBox uses to store cryptographic data about the database.
+database_crypto_information_file = "db.cryptodata"
+
+# This is the the file name of the database HealthBox uses to store information. This database is encrypted.
+database_file = "db.json"
+
+
+# ----- End Of Configuration -----
+
+
+
 class HealthBoxTerminalWrapper: # contains various facilities for access to HealthBox via a terminal
-    version = "BETA (WIP)" # This string is currently part of a message shown when the root of the web server is accessed.
+    version = "v1.3" # This string is currently part of a message shown when the root of the web server is accessed.
     def __init__ (self):
         utils.clear ()
         print ("HealthBox is starting up, one moment...\n")
-        self.db_file_name = "db.json" # TODO: add a way to change this
+        self.db_file_name = database_file
         self.default_db_data = {
             "api_keys": [],
             # An entry for each metric is created
@@ -25,22 +46,23 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
             # This saves space if certain metrics are never tracked.
             "metrics": {}
         }
-        self.crypto_data_file_name = "db.cryptodata" # TODO: this too
-        self.encryption_text_encoding = "utf-8" # no reason to change this
-        self.db = None # stays None until database is initialized through option 4
+        self.crypto_data_file_name = database_crypto_information_file
+        self.encryption_text_encoding = "utf-8"
+        self.db = None # Stays as None until database is initialized through option 4
 
         self.api_key_manager_terminal_wrapper = database_interfaces.HealthBoxAPIKeyManagerTerminalWrapper (self) # Initialized on app initialization for use by the web server's API handling
 
-        # TODO: Add a way to change these web server settings.
         self.web_server_host = "0.0.0.0"
-        self.web_server_port = 5050
+        self.web_server_port = server_port
         self.web_server = web_server.HealthBoxWebServer (host = self.web_server_host, port = self.web_server_port, terminal_wrapper = self)
 
-        # TODO: Add a way to change the config root.
         self.config_root = str (Path.home ()) + "/.config/HealthBox"
         print ("Preparing the settings database...")
         self._prepare_settings_database ()
-        utils.pause_with_message ("\nReady. Welcome to HealthBox!")
+
+        utils.clear() # Clear the screen
+
+        utils.pause_with_message ("Welcome to HealthBox!")
     def main_menu (self):
         while True: # Run the program as an endless loop until terminated
             utils.clear()
@@ -62,25 +84,35 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
             utils.clear()
 
             if selection == "2":
-                utils.pause_with_message ("This feature has not yet been implemented")
+                self.instructions()
+
             elif selection == "1":
-                self.start_or_stop_web_server ()
+                self.start_or_stop_web_server()
+
             elif selection == "3":
                 self.settings()
+
             elif selection == "4":
                 self.initialize_database()
+
             elif selection == "5":
-                self.import_or_export_database ()
+                self.import_or_export_database()
+
             elif selection == "6":
                 self.list_health_metrics()
+
             elif selection == "7":
                 self.manage_keys ()
-            elif selection == "8":
+
+            elif selection == "8" or selection == "q":
                 break # Terminate program
+
             elif selection == "c":
                 self.debug_console ()
+
             else:
                 utils.pause_with_message ("Unknown option")
+
     def _prepare_settings_database (self):
 
         # settings_database_array[0] is whether or not to highlight invalid options as red
@@ -93,7 +125,7 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
         else:
             if os.path.isfile(self.config_root + "/settings.db") == False: # If the settings database doesn't exist, create it, and fill it with the default array
                 # ~/.config/HealthBox/settings.db is missing, and will be created
-                self.settings_database_array = ["true", "placeholder", "placeholder", "placeholder"] # Default settings
+                self.settings_database_array = ["true", "5050", "db.json", "db.cryptodata", "placeholder", "placeholder"] # Default settings
                 self._save_settings_database ()
             else: # If the settings database does exist, open it, and load the database from it
                 settings_database_file = open(self.config_root + "/settings.db", "rb")
@@ -106,6 +138,28 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
     def settings (self):
         utils.clear()
         utils.pause_with_message ("Settings menu coming soon")
+
+    def instructions (self):
+        print("Please select a category you'd like to learn more about")
+        print("1. Connecting apps and devices to HealthBox")
+
+        selection = int(input("Selection: "))
+
+        utils.clear()
+
+        if (selection == 1):
+            print("The connect a program or device to HealthBox, follow these instructions.")
+            print("1. Open HealthBox")
+            print("2. Open the 'Manage API keys' menu from the main menu.")
+            print("3. Create a new API key, and give it a recognizable name by entering the following:")
+            print("    c MyDeviceName")
+            print("4. A new API key should appear at the top of the interface. Take note of it's number.")
+            print("5. Edit the API key using the 'e #' command. Replace the '#' with the API key's number, like so.")
+            print("    e 1")
+            print("6. Set the API key type. If the API key will be used to submit data, set it's type as 'source' using this command: 't s'. If the API key will be used to read data, then set its type as 'app', using this command: 't a'.")
+            print("7. Optionally, configure which metrics the API key can and can't access using the 'Security' and 'Filter' functions.")
+
+
     def start_or_stop_web_server (self): # Option 1 in main menu
         utils.clear ()
 
@@ -128,7 +182,7 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
 
         print ("Your database will be encrypted so other local apps can't access your data without your permission.")
         print ("You'll need an encryption key, which is basically a password that's used to encrypt and decrypt the database.")
-        print ("If the database has existed in the past, use the previous encryption key.")
+        print ("If you've already created a database, use the previous encryption key.")
         print ("(An error will be thrown if it's incorrect.)")
         print ("Otherwise, choose an encryption key for the new database.")
         print ("")
