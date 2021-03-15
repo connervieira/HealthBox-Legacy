@@ -1,24 +1,44 @@
-import utils # utils.py
+import utils
 
-# List of metric categories
+
+# The metrics are broken up into individual categories: Activity, Mental Health, Nutrition, and Measurements
+
+
+# Each metric contains its name, description, and a template containing what information should be in each submission, and in what order, for sake of input validation. Below is a list of validation terms, and what they correspond to. This template only contains what type of information should be in each submission. If you'd like to see what each piece of submission data actually represents, see METRICS.md
+
+# int: A positive whole number
+# float: A positive decimal number
+# start_time: A Unix timestamp before end_time
+# end_time: A Unix timestamp after start_time
+# datetime: A Unix timestamp
+# short_string: A string under 20 characters
+# long_string: A string under 150 characters
+# boolean: A 'true' or 'false' value
+# uuid: An 32 hexidecimal character long UUID
+# sex: A 1 character string: M, F, or I
+# sexuality: A 1 character string: S, G, or B
+# temperature: A positive or negative float, above -273
+# percentage: A decimal number ranged 0 to 100, including 0 and 100
+# side: A 1 character string: L or R
+
+
+
+# List of metric categories and the metrics they contain
 metric_categories = [
  	# Metric category: dictionary with various attributes of each category of metric
 	{
 		"name": "Activity",
-		"id": "A", # Just for the user to be able to pick this one
+		"id": "A",
 		"color": utils.color.RED,
-		# List of each metric in this category;
-		# currently just contains names but may want types as well in the future
-		# for input validation when storing metric data
 		"metrics": [
-			{"name": "Steps", "description": "How many steps are taken"},
-			{"name": "Active Calories", "description": "How many calories have been burned, not including calories burned while resting."},
-			{"name": "On Foot Distance", "description": "Distance traveled through walking, running, or otherwise on foot"},
-			{"name": "Resting Calories", "description": "How much energy is burned while resting"},
-			{"name": "Active Minutes", "description": "How many minutes are spent moving around, being active"},
-			{"name": "Wheelchair Pushes", "description": "How many times the wheels on a wheelchair are pushed"},
-			{"name": "Wheelchair Distance", "description": "Total distance traveled by manual wheel chair movement"},
-			{"name": "Minutes Standing", "description": "Minutes spent standing"}
+			{"name": "Steps", "description": "How many steps are taken", "validation": ["int", "start_time", "end_time"]},
+			{"name": "Active Calories", "description": "How many calories have been burned, not including calories burned while resting.", "validation": ["int", "start_time", "end_time"]},
+			{"name": "On Foot Distance", "description": "Distance traveled through walking, running, or otherwise on foot", "validation": ["float", "start_time", "end_time"]},
+			{"name": "Resting Calories", "description": "How much energy is burned while resting", "validation": ["int", "start_time", "end_time"]},
+			{"name": "Active Minutes", "description": "How many minutes are spent moving around, being active", "validation": ["start_time", "end_time"]},
+			{"name": "Wheelchair Pushes", "description": "How many times the wheels on a wheelchair are pushed", "validation": ["int", "start_time", "end_time"]},
+			{"name": "Wheelchair Distance", "description": "Total distance traveled by manual wheel chair movement", "validation": ["int", "start_time", "end_time"]},
+			{"name": "Minutes Standing", "description": "Minutes spent standing", "validation": ["start_time", "end_time"]}
 		]
 	},
 	{
@@ -26,14 +46,14 @@ metric_categories = [
 		"id": "B",
 		"color": utils.color.CYAN,
 		"metrics": [
-			{"name": "PHQ-9 Score (Depression Test)", "description": "PHQ-9 scores can be an indicator of depression, and its severity"},
-			{"name": "Y-BOCS Score (OCD Test)", "description": "Y-BOCS scores can be an indicator of obessive-compulsive disorder, and its severity."},
-			{"name": "GAD-7 Score (Anxiety Test)", "description": "GAD-7 scores can be an indicator of anxiety, and its severity"},
-			{"name": "MDQ Score (Bipolar Test)", "description": "MDQ scores can be an indicator of bipolar disorder, and its severity"},
-			{"name": "ASRS Score (ADHD Test)", "description": "ASRS scores can be an indicator of ADHD, and its severity"},
-			{"name": "Mindful Minutes", "description": "Minutes spent being mindful of thoughts, emotions, and feelings"},
-			{"name": "Mood", "description": "The current mood at a point in time"},
-			{"name": "Sexual Activity", "description": "Sexual activity with a partner"}
+			{"name": "PHQ-9 Score (Depression Test)", "description": "PHQ-9 scores can be an indicator of depression, and its severity", "validation": ["int", "datetime"]},
+			{"name": "Y-BOCS Score (OCD Test)", "description": "Y-BOCS scores can be an indicator of obessive-compulsive disorder, and its severity.", "validation": ["int", "datetime"]},
+			{"name": "GAD-7 Score (Anxiety Test)", "description": "GAD-7 scores can be an indicator of anxiety, and its severity", "validation": ["int", "datetime"]},
+			{"name": "MDQ Score (Bipolar Test)", "description": "MDQ scores can be an indicator of bipolar disorder, and its severity", "validation": ["int", "datetime"]},
+			{"name": "ASRS Score (ADHD Test)", "description": "ASRS scores can be an indicator of ADHD, and its severity", "validation": ["int", "datetime"]},
+			{"name": "Mindful Minutes", "description": "Minutes spent being mindful of thoughts, emotions, and feelings", "validation": ["short_string", "start_time", "end_time"]},
+			{"name": "Mood", "description": "The current mood at a point in time", "validation": ["short_string", "datetime"]},
+			{"name": "Sexual Activity", "description": "Sexual activity with a partner", "validation": ["boolean", "datetime"]}
 		]
 	},
 	{
@@ -41,45 +61,45 @@ metric_categories = [
 		"id": "C",
 		"color": utils.color.GREEN,
 		"metrics": [
-			{"name": "Calories", "description": ""},
-			{"name": "Water", "description": ""},
-			{"name": "Sugar", "description": ""},
-			{"name": "Fiber", "description": ""},
-			{"name": "Protein", "description": ""},
-			{"name": "Saturated Fat", "description": ""},
-			{"name": "Trans Fat", "description": ""},
-			{"name": "Monosaturated Fat", "description": ""},
-			{"name": "Polysaturated Fat", "description": ""},
-			{"name": "Unspecified Fat", "description": ""},
-			{"name": "Calcium", "description": ""},
-			{"name": "Carbohydrates", "description": ""},
-			{"name": "Cholesterol", "description": ""},
-			{"name": "Iron", "description": ""},
-			{"name": "Sodium", "description": ""},
-			{"name": "Vitamin A", "description": ""},
-			{"name": "Vitamin B6", "description": ""},
-			{"name": "Vitamin B12", "description": ""},
-			{"name": "Vitamin C", "description": ""},
-			{"name": "Vitamin D", "description": ""},
-			{"name": "Vitamin E", "description": ""},
-			{"name": "Vitamin K", "description": ""},
-			{"name": "Zinc", "description": ""},
-			{"name": "Biotin", "description": ""},
-			{"name": "Caffeine", "description": ""},
-			{"name": "Chloride", "description": ""},
-			{"name": "Copper", "description": ""},
-			{"name": "Folate", "description": ""},
-			{"name": "Iodine", "description": ""},
-			{"name": "Magnesium", "description": ""},
-			{"name": "Manganese", "description": ""},
-			{"name": "Molybdenum", "description": ""},
-			{"name": "Niacin", "description": ""},
-			{"name": "Pantothenic Acid", "description": ""},
-			{"name": "Phosphorus", "description": ""},
-			{"name": "Potassium", "description": ""},
-			{"name": "Riboflavin", "description": ""},
-			{"name": "Selenium", "description": ""},
-			{"name": "Thiamin", "description": ""}
+			{"name": "Calories", "description": "", "validation": ["int", "datetime", "uuid", "uuid"]},
+			{"name": "Water", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Sugar", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Fiber", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Protein", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Saturated Fat", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Trans Fat", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Monosaturated Fat", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Polysaturated Fat", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Unspecified Fat", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Calcium", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Carbohydrates", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Cholesterol", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Iron", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Sodium", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Vitamin A", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Vitamin B6", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Vitamin B12", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Vitamin C", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Vitamin D", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Vitamin E", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Vitamin K", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Zinc", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Biotin", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Caffeine", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Chloride", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Copper", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Folate", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Iodine", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Magnesium", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Manganese", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Molybdenum", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Niacin", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Pantothenic Acid", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Phosphorus", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Potassium", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Riboflavin", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Selenium", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]},
+			{"name": "Thiamin", "description": "", "validation": ["float", "datetime", "uuid", "uuid"]}
 		]
 	},
 	{
@@ -87,33 +107,33 @@ metric_categories = [
 		"id": "D",
 		"color": utils.color.YELLOW,
 		"metrics": [
-			{"name": "Weight", "description": "Total body weight"},
-			{"name": "Height", "description": "Total height when standing straight upright"},
-			{"name": "Biological Sex", "description": "Gender as identified at birth"},
-			{"name": "Gender", "description": "Gender as defined by which gender one identifies with"},
-			{"name": "Sexuality", "description": "Who one is attracted to sexually"},
-			{"name": "Body Temperature", "description": "Measure of the temperature of the body "},
-			{"name": "Electrodermal Activity", "description": "Electrodermal activity serves as an indicator of how much sweat is on the skin."},
-			{"name": "Waist Circumference", "description": "The measurement of the circumference of the waist"},
-			{"name": "Breathing Rate", "description": "How many breaths taken each minute"},
-			{"name": "Oxygen Saturation", "description": "How much oxygen in present in the blood"},
-			{"name": "Heart Rate", "description": "How many times per minute the heart beats"},
-			{"name": "Resting Heart Rate", "description": "Heart rate, measured while sitting, and inactive"},
-			{"name": "Walking Heart Rate", "description": "Heart rate, measured at a steady walking pace"},
-			{"name": "Running Heart Rate", "description": "Heart race, measured at a steady run"},
-			{"name": "Heart Rate Variability", "description": "Variation in the time interval between heart beats"},
-			{"name": "Peripheral Perfusion Index", "description": "Relative strength of the pulse at various points on the body"},
-			{"name": "Lung Capacity", "description": "How much air the lungs are capable of holding"},
-			{"name": "VO2 Max", "description": "The maximum amount of oxygen burned while exercising"},
-			{"name": "Ailments", "description": "A record of injuries and illnesses, both mental and physical"},
-			{"name": "Blood Pressure", "description": "The pressure at which blood pushes against the walls of the arteries"},
-			{"name": "Blood Sugar", "description": "The amount of glucose in the blood"},
-			{"name": "Blood Alcohol Content", "description": "The amount of alcohol in the blood"},
-			{"name": "Sound Exposure", "description": "Periods of time exposed to sounds of a certain volume"},
-			{"name": "Sleep", "description": "Record of periods of sleep in its various stages"},
-			{"name": "Times Fallen", "description": "Times unintentionally fallen, with or without injury"},
-			{"name": "Atypical Pulse", "description": "A record of occasions on which heart rate was atypically fast or slow."},
-			{"name": "Audiogram", "description": "A test used to determine how loud a sound has to be to be heard."}
+			{"name": "Weight", "description": "Total body weight", "validation": ["float", "datetime"]},
+			{"name": "Height", "description": "Total height when standing straight upright", "validation": ["float", "datetime"]},
+			{"name": "Biological Sex", "description": "Gender as identified at birth", "validation": ["sex"]},
+			{"name": "Gender", "description": "Gender as defined by which gender one identifies with", "validation": ["short_string"]},
+			{"name": "Sexuality", "description": "Who one is attracted to sexually", "validation": ["sexuality"]},
+			{"name": "Body Temperature", "description": "Measure of the temperature of the body ", "validation": ["temperature", "datetime"]},
+			{"name": "Electrodermal Activity", "description": "Electrodermal activity serves as an indicator of how much sweat is on the skin.", "validation": ["float", "datetime"]},
+			{"name": "Waist Circumference", "description": "The measurement of the circumference of the waist", "validation": ["float", "datetime"]},
+			{"name": "Breathing Rate", "description": "How many breaths taken each minute", "validation": ["float", "datetime"]},
+			{"name": "Oxygen Saturation", "description": "How much oxygen in present in the blood", "validation": ["percentage", "datetime"]},
+			{"name": "Heart Rate", "description": "How many times per minute the heart beats", "validation": ["int", "datetime"]},
+			{"name": "Resting Heart Rate", "description": "Heart rate, measured while sitting, and inactive", "validation": ["int", "datetime"]},
+			{"name": "Walking Heart Rate", "description": "Heart rate, measured at a steady walking pace", "validation": ["int", "datetime"]},
+			{"name": "Running Heart Rate", "description": "Heart race, measured at a steady run", "validation": ["int", "datetime"]},
+			{"name": "Heart Rate Variability", "description": "Variation in the time interval between heart beats", "validation": ["int", "datetime"]},
+			{"name": "Peripheral Perfusion Index", "description": "Relative strength of the pulse at various points on the body", "validation": ["percentage", "datetime"]},
+			{"name": "Lung Capacity", "description": "How much air the lungs are capable of holding", "validation": ["float", "datetime"]},
+			{"name": "VO2 Max", "description": "The maximum amount of oxygen burned while exercising", "validation": ["float", "datetime"]},
+			{"name": "Ailments", "description": "A record of injuries and illnesses, both mental and physical", "validation": ["long_string", "start_time", "end_time"]},
+			{"name": "Blood Pressure", "description": "The pressure at which blood pushes against the walls of the arteries", "validation": ["int", "int", "datetime"]},
+			{"name": "Blood Sugar", "description": "The amount of glucose in the blood", "validation": ["int", "datetime"]},
+			{"name": "Blood Alcohol Content", "description": "The amount of alcohol in the blood", "validation": ["float", "datetime"]},
+			{"name": "Sound Exposure", "description": "Periods of time exposed to sounds of a certain volume", "validation": ["int", "start_time", "end_time"]},
+			{"name": "Sleep", "description": "Record of periods of sleep in its various stages", "validation": ["short_string", "start_time", "end_time"]},
+			{"name": "Times Fallen", "description": "Times unintentionally fallen, with or without injury", "validation": ["datetime"]},
+			{"name": "Atypical Pulse", "description": "A record of occasions on which heart rate was atypically fast or slow.", "validation": ["int", "datetime"]},
+			{"name": "Audiogram", "description": "A test used to determine how loud a sound has to be to be heard.", "validation": ["int", "side", "datetime"]}
 		]
 	}
 ]
