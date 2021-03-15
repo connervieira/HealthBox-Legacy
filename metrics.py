@@ -2,6 +2,7 @@ import utils
 
 
 # The metrics are broken up into individual categories: Activity, Mental Health, Nutrition, and Measurements
+# Should you want to add metrics, this is where to do it. However, only add metrics at the end of the categories. Adding metrics at the top or in the middle of categories will shift other metrics down, changing the ID they use. This will break compatibility with programs.
 
 
 # Each metric contains its name, description, and a template containing what information should be in each submission, and in what order, for sake of input validation. Below is a list of validation terms, and what they correspond to. This template only contains what type of information should be in each submission. If you'd like to see what each piece of submission data actually represents, see METRICS.md
