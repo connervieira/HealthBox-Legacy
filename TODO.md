@@ -1,5 +1,8 @@
 # TODO
 - [x] Create base HealthBox functionality.
 - [ ] Create GUI front end for users not comfortable with the command line.
-- [ ] Create a sample application to demonstrate reading and writing information to HealthBox.
+- [x] Create a sample application to demonstrate reading and writing information to HealthBox.
 - [ ] Create a more fluid and seamless download and installation experience from the V0LT website.
+- [ ] Add input validation to the API to prevent sources from submitting malformed data.
+- [ ] Add a way to remove data from HealthBox other than manually editing the database.
+- [ ] Add 'MealID' and 'FoodID' values to nutrient samples to keep track of which nutrient samples correlate to which specific foods and meals are linked to each nutrient sample.
