@@ -10,6 +10,11 @@ An open source platform to centralize health information
 Since HealthBox is written in Python, and Python is an interpreted language, the source code serves as the executable. To obtain the source code, you can either clone this repository to your computer's disk using the `git clone https://github.com/connervieira/HealthBox --recurse-submodules` command, or download it as a compressed file at <https://v0lttech.com/healthbox.php>
 
 
+## User Instructions
+
+If you're a user looking to try out HealthBox, check out [USAGE.md](USAGE.md)
+
+
 ## Developer Instructions
 
 Are you looking to write an application that uses the HealthBox API? Detailed documentation on how the API works is available in [DOCUMENTATION.md](DOCUMENTATION.md).
