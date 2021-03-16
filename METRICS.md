@@ -7,6 +7,8 @@ This is a quick reference sheet of all of the health metrics HealthBox is capabl
 - In general, a sample that overlaps midnight (For example, 11:57 PM to 12:03 AM), should try to be avoided, since it can lead to confusion when programs read the metric data back.
 - `meal id` and `food id` are used to keep track of which nutrition samples are part of the same foods and meals. For example, if a user has cereal for breakfast, a program would submit nutritional data for the cereal and milk with the same `meal ID`, but differing `food IDs`. This makes it considerably easier for programs to read back information, and determine which nutrient samples are tied back to the same instance of food. `meal IDs` and `food IDs` are unique, and don't overlap, even if the same food is logged twice. For example, if the user eats cereal two days in a row, both instances of the meal would have different meal IDs and food IDs, even though the actual food consumed is the same.
 
+---
+
 ## Activity
 
 ### Steps
