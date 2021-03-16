@@ -259,26 +259,37 @@ The `active calories` metric contains information about how many calories are bu
 ### Weight
 
 [weight (kg), time measured]
+The `weight` metric is for recording the user's weight over time, in kilograms.
 
 ### Height
 
 [height (m), time measured]
+The `height` metric is for recording the user's height over time, in meters.
 
 ### Biological Sex
 
 [gender at birth]
+The `biological sex` metric is used to store the user's biological gender, at birth. It is a one character string that can be 'M' for male, 'F' for female, or 'I' for intersex. This metric is seperate from the `gender` metric, and they shouldn't be used interchangably. For calculations dependent on sex, like motabolism, this metric should be used instead of the `gender` metric.
 
 ### Gender
 
 [gender identity]
+The `gender` metric is used to define the user's psychological gender identity. It can be any short string, but for sake of standardization it's advised to be something like "male", "female", "non-binary", or another commonly defined gender identity.
+
+### Sexuality
+
+[sexuality]
+The `sexuality` metric is used to define the user's sexuality, in terms of who they are attracted to. It is represented by a 1 character string, and can be "S" for straight (attracted to the opposite biological sex), "G" for gay (attracted to the same biological sex), "B" for bi-sexual (attracted to both biological sexes), or "A" for asexual (not attracted to either biological gender).
 
 ### Body Temperature
 
 [body temperature (c), time measured]
+This metric stores a measurement of the user's body temperature at a given time, measured in Celcius.
 
 ### Electrodermal Activity
 
 [measurement (μS), time measured]
+The `electrodermal activity` metric measures the user's skin's electrodermal activity, which is an indicator of how much sweat is present.
 
 ### Waist Circumference
 
@@ -311,10 +322,12 @@ The `active calories` metric contains information about how many calories are bu
 ### Heart Rate Variability
 
 [variation (ms), time measured]
+`Heart rate variability` measures the variation in the length of time between heart beats. For example, if the length of time between beat 1 and 2 is 900ms, and the length of time between beat 2 and 3 is 850ms, the heart rate variabilty would be considered to be 50ms.
 
-### Peripheral Perfusion Inex
+### Peripheral Perfusion Index
 
 [measurement percentage, time measured]
+The `peripheral perfusion index` is a measure of how much the strength of the pulse changes based on where on the body it is measured.
 
 ### Lung Capacity
 
@@ -327,6 +340,7 @@ The `active calories` metric contains information about how many calories are bu
 ### Ailments
 
 [ailment, start time, approximate end time]
+The `ailments` metric is used to store generic information about physical and mental ailments. The `ailment` should be a relatively short string that concisely defines the ailment. For example, 'broken ankle', or 'dislocated thumb' would be appropriate. The `start time` should be the time and date the ailment occured, and the `end date` should be the approximate date and time where the ailment no longer had a signficant impact on the user's daily activities. Many ailments, especially mental ones, very frequently don't have a concern start or end time. Therefore, you should be careful when using the `start time` and `end time` fields for anything more than a general idea of which ailments a user has at a given point in time.
 
 ### Blood Pressure
 

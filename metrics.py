@@ -17,7 +17,7 @@ import utils
 # boolean: A 'true' or 'false' value
 # uuid: An 32 hexidecimal character long UUID
 # sex: A 1 character string: M, F, or I
-# sexuality: A 1 character string: S, G, or B
+# sexuality: A 1 character string: S, G, B, or A
 # temperature: A positive or negative float, above -273
 # percentage: A decimal number ranged 0 to 100, including 0 and 100
 # side: A 1 character string: L or R
