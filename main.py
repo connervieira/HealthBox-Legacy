@@ -3,16 +3,6 @@
 # Version 1.3
 # Licensed under the GPLv3
 
-import metrics, utils, database, crypto, database_interfaces, web_server # metrics.py, utils.py, database.py, crypto.py, database_interfaces.py, web_server.py
-
-# import numpy # Usage unknown
-import os
-from pathlib import Path
-import pickle
-import traceback # For use with the debug console
-import json # for importing/exporting the database contents
-
-
 
 
 # ----- Configuration -----
@@ -28,8 +18,20 @@ database_crypto_information_file = "db.cryptodata"
 # This is the the file name of the database HealthBox uses to store information. This database is encrypted.
 database_file = "db.json"
 
-
 # ----- End Of Configuration -----
+
+
+
+# Import other Python scripts
+import metrics, utils, database, crypto, database_interfaces, web_server # metrics.py, utils.py, database.py, crypto.py, database_interfaces.py, web_server.py
+
+
+# Import required Python modules
+import os
+from pathlib import Path
+import pickle
+import traceback # For use with the debug console
+import json # for importing/exporting the database contents
 
 
 
