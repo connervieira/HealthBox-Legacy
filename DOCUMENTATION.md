@@ -1,6 +1,6 @@
 # API Documentation
 
-Note: This guide is intended for developers that want to take advantage of the HealthBox API. If you're a user of an application that utilizes the HealthBox API, you're known as the "owner", and this document is not intended for you. However, you may still be interested in reading it to better understand how applications interface with your data.
+Note: This guide is intended for developers that want to take advantage of the HealthBox API. If you're a HealthBox user, consider checking out the USAGE.md document for information on how to set up HealthBox. However, you may still be interested in reading it to better understand how applications interface with your data.
 
 
 ### Abstract
