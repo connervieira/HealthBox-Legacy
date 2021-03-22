@@ -101,7 +101,7 @@ metric_categories = [
 			{"name": "Potassium", "description": "", "validation": ["float", "datetime", "uuid", "uuid"], "keys": ["amount", "time", "mealid", "foodid"]},
 			{"name": "Riboflavin", "description": "", "validation": ["float", "datetime", "uuid", "uuid"], "keys": ["amount", "time", "mealid", "foodid"]},
 			{"name": "Selenium", "description": "", "validation": ["float", "datetime", "uuid", "uuid"], "keys": ["amount", "time", "mealid", "foodid"]},
-			{"name": "Thiamin", "description": "", "validation": ["float", "datetime", "uuid", "uuid",] "keys": ["amount", "time", "mealid", "foodid"]}
+			{"name": "Thiamin", "description": "", "validation": ["float", "datetime", "uuid", "uuid",], "keys": ["amount", "time", "mealid", "foodid"]}
 		]
 	},
 	{
