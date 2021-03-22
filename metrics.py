@@ -110,9 +110,9 @@ metric_categories = [
 		"color": utils.color.YELLOW,
 		"metrics": [
 			{"name": "Weight", "description": "Total body weight", "validation": ["float", "datetime"], "keys": ["measurement", "time"]},
-			{"name": "Height", "description": "Total height when standing straight upright", "validation": ["float", "datetime"], "keys": ["measurement", "time"},
+			{"name": "Height", "description": "Total height when standing straight upright", "validation": ["float", "datetime"], "keys": ["measurement", "time"]},
 			{"name": "Biological Sex", "description": "Gender as identified at birth", "validation": ["sex"], "keys": ["sex"]},
-			{"name": "Gender", "description": "Gender as defined by which gender one identifies with", "validation": ["short_string"], "keys": ["gender"},
+			{"name": "Gender", "description": "Gender as defined by which gender one identifies with", "validation": ["short_string"], "keys": ["gender"]},
 			{"name": "Sexuality", "description": "Who one is attracted to sexually", "validation": ["sexuality"], "keys": ["sexuality"]},
 			{"name": "Body Temperature", "description": "Measure of the temperature of the body ", "validation": ["measurement", "datetime"], "keys": ["temperature", "time"]},
 			{"name": "Electrodermal Activity", "description": "Electrodermal activity serves as an indicator of how much sweat is on the skin.", "validation": ["float", "datetime"], "keys": ["measurement", "time"]},
