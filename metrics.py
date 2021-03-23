@@ -33,7 +33,7 @@ metric_categories = [
 		"id": "A",
 		"color": utils.color.RED,
 		"metrics": [
-			{"name": "Steps", "description": "How many steps are taken", "validation": ["int", "start_time", "end_time"], "keys": ["steps", "start_time", "end_time"]},
+			{"name": "Steps", "description": "How many steps are taken", "validation": ["int", "start_time", "end_time"], "keys": ["steps_count", "start_time", "end_time"]},
 			{"name": "Active Calories", "description": "How many calories have been burned, not including calories burned while resting.", "validation": ["int", "start_time", "end_time"], "keys": ["calories", "start_time", "end_time"]},
 			{"name": "On Foot Distance", "description": "Distance traveled through walking, running, or otherwise on foot", "validation": ["float", "start_time", "end_time"], "keys": ["distance", "start_time", "end_time"]},
 			{"name": "Resting Calories", "description": "How much energy is burned while resting", "validation": ["int", "start_time", "end_time"], "keys": ["calories", "start_time", "end_time"]},
