@@ -1,6 +1,6 @@
 # Usage
 
-Note: This document is for users looking to run HealthBox. If you're a developer looking to develop a piece of software or hardware for HealthBox, please see DOCUMENTATION.md
+Note: This document is for users looking to run HealthBox. If you're a developer looking to develop a piece of software or hardware for HealthBox, please see [DOCUMENTATION.md](DOCUMENTATION.md)
 
 For a quick start guide, jump to the 'Running' section of this document.
 
