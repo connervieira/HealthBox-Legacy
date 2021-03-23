@@ -4,6 +4,8 @@ Note: This document is for users looking to run HealthBox. If you're a developer
 
 For a quick start guide, jump to the 'Running' section of this document.
 
+Be sure to also read <SECURITY.md> to learn about the security features and limitations of HealthBox.
+
 
 ## Supported Platforms
 
