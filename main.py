@@ -143,13 +143,17 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
 
     def instructions (self):
         print("Please select a category you'd like to learn more about")
+        print("0. Back to main menu")
         print("1. Connecting apps and devices to HealthBox")
+        print("2. Changing the default port or database name")
 
         selection = int(input("Selection: "))
 
         utils.clear()
 
-        if (selection == 1):
+        if (selection == 0):
+            pass
+        elif (selection == 1):
             print("The connect a program or device to HealthBox, follow these instructions.")
             print("1. Open HealthBox")
             print("2. Open the 'Manage API keys' menu from the main menu.")
@@ -160,6 +164,15 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
             print("    e 1")
             print("6. Set the API key type. If the API key will be used to submit data, set it's type as 'source' using this command: 't s'. If the API key will be used to read data, then set its type as 'app', using this command: 't a'.")
             print("7. Optionally, configure which metrics the API key can and can't access using the 'Security' and 'Filter' functions.")
+            print("8. Input the API key, HealthBox server address, and port into the application or device you'd like to configure.")
+        elif (selection == 2):
+            print("To configure the default port number or database name of HealthBox, follow these instructions")
+            print("1. Open `main.py` in the HealthBox folder in a text editor of your choice.")
+            print("2. Locate the section at the top of the script labeled `----- Configuration -----`")
+            print("3. Modify the values as desired")
+            pritn("4. Save `main.py` and exit")
+        else:
+            utils.pause_with_message("Invalid selection")
 
 
     def start_or_stop_web_server (self): # Option 1 in main menu
