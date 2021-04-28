@@ -274,7 +274,7 @@ The `height` metric is for recording the user's height over time, in meters.
 
 [gender at birth]
 
-The `biological sex` metric is used to store the user's biological gender, at birth. It is a one character string that can be 'M' for male, 'F' for female, or 'I' for intersex. This metric is seperate from the `gender` metric, and they shouldn't be used interchangably. For calculations dependent on sex, like motabolism, this metric should be used instead of the `gender` metric.
+The `biological sex` metric is used to store the user's biological gender, at birth. It is a one character string that can be 'M' for male, 'F' for female, or 'I' for intersex. This metric is seperate from the `gender` metric, and they shouldn't be used interchangeably. For calculations dependent on sex, like metabolism, this metric should be used instead of the `gender` metric.
 
 ### Gender
 
@@ -336,7 +336,7 @@ The `electrodermal activity` metric measures the user's skin's electrodermal act
 
 [variation (ms), time measured]
 
-`Heart rate variability` measures the variation in the length of time between heart beats. For example, if the length of time between beat 1 and 2 is 900ms, and the length of time between beat 2 and 3 is 850ms, the heart rate variabilty would be considered to be 50ms.
+`Heart rate variability` measures the variation in the length of time between heart beats. For example, if the length of time between beat 1 and 2 is 900ms, and the length of time between beat 2 and 3 is 850ms, the heart rate variability would be considered to be 50ms.
 
 ### Peripheral Perfusion Index
 
