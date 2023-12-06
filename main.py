@@ -65,6 +65,8 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
         utils.clear() # Clear the screen
 
         utils.pause_with_message ("Welcome to HealthBox!")
+
+
     def main_menu (self):
         while True: # Run the program as an endless loop until terminated
             utils.clear()
@@ -87,36 +89,27 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
 
             if selection == "2":
                 self.instructions()
-
             elif selection == "1":
                 self.start_or_stop_web_server()
-
             elif selection == "3":
                 self.settings()
-
             elif selection == "4":
                 self.initialize_database()
-
             elif selection == "5":
                 self.import_or_export_database()
-
             elif selection == "6":
                 self.list_health_metrics()
-
             elif selection == "7":
                 self.manage_keys ()
-
             elif selection == "8" or selection == "q":
                 break # Terminate program
-
             elif selection == "c":
                 self.debug_console ()
-
             else:
                 utils.pause_with_message ("Unknown option")
 
-    def _prepare_settings_database (self):
 
+    def _prepare_settings_database (self):
         # settings_database_array[0] is whether or not to highlight invalid options as red
 
         if os.path.isdir(str(Path.home()) + "/.config") == False: # ~/.config is missing, we're probably on Windows or something nasty happened to the OS
@@ -133,13 +126,16 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
                 settings_database_file = open(self.config_root + "/settings.db", "rb")
                 self.settings_database_array = pickle.loads(settings_database_file.read())
                 settings_database_file.close()
+
+
     def _save_settings_database (self):
         settings_database_file = open(self.config_root + "/settings.db", "wb")
         settings_database_file.write(pickle.dumps(self.settings_database_array, protocol=0)) # protocol = 0 forces pickle to use the original, human-readable serialization format
         settings_database_file.close()
+
     def settings (self):
         utils.clear()
-        utils.pause_with_message ("Settings menu coming soon")
+        utils.pause_with_message ("The settings menu has not been implemented")
 
     def instructions (self):
         print("Please select a category you'd like to learn more about")
@@ -159,10 +155,10 @@ class HealthBoxTerminalWrapper: # contains various facilities for access to Heal
             print("2. Open the 'Manage API keys' menu from the main menu.")
             print("3. Create a new API key, and give it a recognizable name by entering the following:")
             print("    c MyDeviceName")
-            print("4. A new API key should appear at the top of the interface. Take note of it's number.")
+            print("4. A new API key should appear at the top of the interface. Take note of its number.")
             print("5. Edit the API key using the 'e #' command. Replace the '#' with the API key's number, like so.")
             print("    e 1")
-            print("6. Set the API key type. If the API key will be used to submit data, set it's type as 'source' using this command: 't s'. If the API key will be used to read data, then set its type as 'app', using this command: 't a'.")
+            print("6. Set the API key type. If the API key will be used to submit data, set its type as 'source' using this command: 't s'. If the API key will be used to read data, then set its type as 'app', using this command: 't a'.")
             print("7. Optionally, configure which metrics the API key can and can't access using the 'Security' and 'Filter' functions.")
             utils.pause_with_message("8. Input the API key, HealthBox server address, and port into the application or device you'd like to configure.")
         elif (selection == 2):
