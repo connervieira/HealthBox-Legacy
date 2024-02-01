@@ -1,8 +1,13 @@
-# HealthBox
+# HealthBox Legacy
 
 An open source platform to centralize health information
 
 ![HealthBox Logo](https://v0lttech.com/assets/img/healthboxlogo.png)
+
+
+## Discontinued
+
+This version of HealthBox has been discontinued in favor of completely redeveloped platform to make future development easier and more organized. The re-developed version will take the name "HealthBox", while this original version will take the name "HealthBox Legacy". Ideally, these two versions will retain compatibility with each-other, such that any programs developed for the original HealthBox will be compatible with the redesign. However, the redesign is still very early in development, so everything is subject to change.
 
 
 ## Download
