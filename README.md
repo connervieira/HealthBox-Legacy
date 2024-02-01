@@ -53,4 +53,4 @@ HealthBox is designed to be as easy as possible to extend with additional featur
 
 ## Credits
 
-Special thanks to [https://github.com/An0nDev](https://github.com/An0nDev) on GitHub for developing the server backend that HealthBox depends on!
+Special thanks to [https://github.com/An0nDev](https://github.com/An0nDev) on GitHub for developing the server back-end that HealthBox depends on!

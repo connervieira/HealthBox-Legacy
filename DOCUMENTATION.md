@@ -5,7 +5,7 @@ Note: This guide is intended for developers that want to take advantage of the H
 
 ### Abstract
 
-The HealthBox API provides a method for developers of both devices that track health metric data and apps that need access to health metric data submit and retrieve the involved metric data. The API, which is based on an HTTP server, is designed to be minimalistic and easy to implement.
+The HealthBox API provides a method for developers of both devices that track health metric data and apps that need access to health metric data submit and retrieve the involved metric data. The API, which is based on an HTTP server, is designed to be minimalist and easy to implement.
 
 
 ### Authentication
@@ -18,9 +18,9 @@ Authentication is based on the concept of an API key, which is created by the ow
 There are two types of applications that can interact with the HealthBox API: **sources** and **apps**. A **source** is an application that generates and submits health metric data to the API. An **app** is an application that retrieves health metric data from the API. API keys are designated by the owner to only work for either sources or apps. Most API methods are available to only sources or apps, and if a method is called with a key designated for the wrong type of application, an error is thrown. (Error formatting is described in-depth below.)
 
 - **source**: A piece of software or hardware that submits data to HealthBox. API keys of this type have write permissions only.
-- **app**: A piece of software or hardware that recieves data from HealthBox. API keys of this type have read permission only.
+- **app**: A piece of software or hardware that receives data from HealthBox. API keys of this type have read permission only.
 
-Please note that because **sources** can only submit data and **apps** can only read it, your program or device may need two seperate API keys if it needs to do both actions.
+Please note that because **sources** can only submit data and **apps** can only read it, your program or device may need two separate API keys if it needs to do both actions.
 
 
 ### Calling A Method

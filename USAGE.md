@@ -21,7 +21,7 @@ Requires minimal tweaking:
 Requires a bit of tweaking:
 - Android
 
-Requires signficant tweaking:
+Requires significant tweaking:
 - iOS
 
 While not recommended for sake of battery life, it is entirely possible to run the HealthBox server on a mobile device. However, depending on how locked down your hardware vendor is, you may have a considerably harder time doing it. If you're running Android on your mobile device, it should be relatively easy to install a terminal emulator like Termux, and run HealthBox. If you're on iOS, you'll be able to run HealthBox, but it will almost certainly require a jailbreak. It should be noted for sake of clarity that mobile devices are perfectly capable of running software that connects with a remote HealthBox server running on a device more suited to the task. If you'd like to run the HealthBox server but only have a mobile device, it's highly recommended that you purchase an inexpensive single-board computer like a Raspberry Pi. HealthBox is designed to be extremely lightweight, so even inexpensive hardware should be able to run it without any issues.

@@ -27,9 +27,9 @@ The `active calories` metric contains information about how many calories are bu
 
 [kilometers traveled, start time, end time]
 
-The `on foot distance` metric measures how far the user walked or ran between two stretches of time without outside physical assistance. Distance travelled by car, bike, or wheelchair does not belong in this metric. For sake of precise data, you should try to submit data in smaller time increments, around 5 to 15 minutes. However, the start and end time can be hours apart if your tracking method doesn't allow for data this precise.
+The `on foot distance` metric measures how far the user walked or ran between two stretches of time without outside physical assistance. Distance traveled by car, bike, or wheelchair does not belong in this metric. For sake of precise data, you should try to submit data in smaller time increments, around 5 to 15 minutes. However, the start and end time can be hours apart if your tracking method doesn't allow for data this precise.
 
-`On foot distance` is the measure of the distance traveled unassisted through walking or running in kilometers. This does not include distance travelled on bicycles, cars, or other vehicles.
+`On foot distance` is the measure of the distance traveled unassisted through walking or running in kilometers. This does not include distance traveled on bicycles, cars, or other vehicles.
 
 ### Resting Calories
 
@@ -53,7 +53,7 @@ The `on foot distance` metric measures how far the user walked or ran between tw
 
 [kilometers traveled, start time, end time]
 
-`Wheelchair distance` measures the distance travelled unassisted by wheelchair, measured in kilometers.
+`Wheelchair distance` measures the distance traveled unassisted by wheelchair, measured in kilometers.
 
 ### Minutes Standing
 
@@ -274,7 +274,7 @@ The `height` metric is for recording the user's height over time, in meters.
 
 [gender at birth]
 
-The `biological sex` metric is used to store the user's biological gender, at birth. It is a one character string that can be 'M' for male, 'F' for female, or 'I' for intersex. This metric is seperate from the `gender` metric, and they shouldn't be used interchangeably. For calculations dependent on sex, like metabolism, this metric should be used instead of the `gender` metric.
+The `biological sex` metric is used to store the user's biological gender, at birth. It is a one character string that can be 'M' for male, 'F' for female, or 'I' for intersex. This metric is separate from the `gender` metric, and they shouldn't be used interchangeably. For calculations dependent on sex, like metabolism, this metric should be used instead of the `gender` metric.
 
 ### Gender
 
@@ -292,7 +292,7 @@ The `sexuality` metric is used to define the user's sexuality, in terms of who t
 
 [body temperature (c), time measured]
 
-This metric stores a measurement of the user's body temperature at a given time, measured in Celcius.
+This metric stores a measurement of the user's body temperature at a given time, measured in Celsius.
 
 ### Electrodermal Activity
 
@@ -356,7 +356,7 @@ The `peripheral perfusion index` is a measure of how much the strength of the pu
 
 [ailment, start time, approximate end time]
 
-The `ailments` metric is used to store generic information about physical and mental ailments. The `ailment` should be a relatively short string that concisely defines the ailment. For example, 'broken ankle', or 'dislocated thumb' would be appropriate. The `start time` should be the time and date the ailment occured, and the `end date` should be the approximate date and time where the ailment no longer had a signficant impact on the user's daily activities. Many ailments, especially mental ones, very frequently don't have a concern start or end time. Therefore, you should be careful when using the `start time` and `end time` fields for anything more than a general idea of which ailments a user has at a given point in time.
+The `ailments` metric is used to store generic information about physical and mental ailments. The `ailment` should be a relatively short string that concisely defines the ailment. For example, 'broken ankle', or 'dislocated thumb' would be appropriate. The `start time` should be the time and date the ailment occurred, and the `end date` should be the approximate date and time where the ailment no longer had a significant impact on the user's daily activities. Many ailments, especially mental ones, very frequently don't have a concern start or end time. Therefore, you should be careful when using the `start time` and `end time` fields for anything more than a general idea of which ailments a user has at a given point in time.
 
 ### Blood Pressure
 
